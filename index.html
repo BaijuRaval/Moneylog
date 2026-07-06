@@ -773,14 +773,15 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </nav>
 
 <!-- ═══════════ ADD/EDIT BOTTOM SHEET ═══════════ -->
-<div class="s-ov" id="s-ov"></div>
-<div class="bsheet" id="bsheet">
-  <div class="sh-handle"></div>
-  <div class="sh-hdr">
-    <span class="sh-title" id="sh-title">Add Transaction</span>
-    <button class="sh-close" id="sh-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-  </div>
-  <div class="sh-body">
+<div class="view" id="v-tx">
+  <header class="hdr2">
+    <button class="hdr2-back" id="tx-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="hdr2-titles">
+      <div class="hdr2-title" id="sh-title">Add Transaction</div>
+    </div>
+  </header>
+  <div class="scr-body">
+  <div style="padding:0 18px">
     <div class="ttog">
       <button class="tt-btn inc" id="tt-inc"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg>Money In</button>
       <button class="tt-btn exp" id="tt-exp"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg>Money Out</button>
@@ -811,6 +812,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
       <button class="sv-btn" id="sh-save" style="flex:1"><i class="fa-solid fa-floppy-disk"></i> Save Transaction</button>
       <button class="sv-btn" id="sh-del" style="flex:0 0 auto;background:var(--g-red);display:none"><i class="fa-solid fa-trash-can"></i></button>
     </div>
+  </div>
   </div>
 </div>
 
@@ -934,24 +936,18 @@ function bindAll(){
   document.getElementById('cd-back').addEventListener('click',navBack);
   document.getElementById('rpt-back').addEventListener('click',navBack);
   document.getElementById('set-back').addEventListener('click',navBack);
-  /* sheet */
-  document.getElementById('sh-close').addEventListener('click',closeSheet);
-  document.getElementById('s-ov').addEventListener('click',closeSheet);
+  /* transaction screen */
+  document.getElementById('tx-back').addEventListener('click',navBack);
   document.getElementById('sh-save').addEventListener('click',saveTx);
   document.getElementById('sh-del').addEventListener('click',()=>{
     const id=document.getElementById('sh-del').dataset.delId;
     if(!id) return;
-    closeSheet();
-    setTimeout(()=>{
-      openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
-        TX=TX.filter(t=>t.id!==id); save();
-        if(curView==='home') renderHome();
-        if(curView==='cashbook') renderCashbook();
-        if(curView==='alltx') renderAllTx();
-        if(curView==='credit') renderCredit();
-        toast('<i class="fa-solid fa-trash-can"></i> Deleted');
-      });
-    },420);
+    openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
+      const clone=TX.filter(t=>t.id!==id);
+      if(!commitState(clone)) return; // validation failed → TX untouched
+      toast('<i class="fa-solid fa-trash-can"></i> Deleted');
+      navBack();
+    });
   });
   /* type toggle */
   document.getElementById('tt-inc').addEventListener('click',()=>setMode('inc'));
@@ -1000,7 +996,7 @@ function bindAll(){
   /* modal */
   document.getElementById('m-cancel').addEventListener('click',closeModal);
   /* keyboard */
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeSheet(); closeModal(); } });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closePersonSheet(); closeModal(); } });
 }
 
 /* ── NAVIGATION ────────────────────────────────── */
@@ -1020,6 +1016,7 @@ function navTo(v,isBack){
   if(v==='reports')  renderReports();
   if(v==='settings') initSettings();
   if(v==='persons')  renderPersonsList();
+  if(v==='pd')       refreshPersonDetail();
   window.scrollTo(0,0);
 }
 function navBack(){
@@ -1140,25 +1137,7 @@ function openSheet(mode){
   if(delBtn) delBtn.style.display='none';
   setMode(mode||'inc');
   setPay('Cash');
-  showSheet();
-}
-function showSheet(){
-  const ov=document.getElementById('s-ov');
-  const sh=document.getElementById('bsheet');
-  ov.style.display='block';
-  sh.style.display='flex';
-  // force reflow then animate
-  ov.getBoundingClientRect();
-  sh.getBoundingClientRect();
-  ov.classList.add('open');
-  sh.classList.add('open');
-}
-function closeSheet(){
-  const ov=document.getElementById('s-ov');
-  const sh=document.getElementById('bsheet');
-  ov.classList.remove('open');
-  sh.classList.remove('open');
-  setTimeout(()=>{ ov.style.display='none'; sh.style.display='none'; document.getElementById('tx-eid').value=''; },400);
+  navTo('tx');
 }
 function setMode(m){
   txMode=m;
@@ -1204,14 +1183,7 @@ function saveTx(){
   }
   if(!commitState(clone)) return; // validation failed → clone discarded, TX untouched
   toast(eid?'<i class="fa-solid fa-check"></i> Updated':'<i class="fa-solid fa-check"></i> Saved');
-  closeSheet();
-  setTimeout(()=>{
-    if(curView==='home')     renderHome();
-    if(curView==='cashbook') renderCashbook();
-    if(curView==='credit')   renderCredit();
-    if(curView==='reports')  renderReports();
-    if(curView==='pd')       openPersonDetail(document.getElementById('pd-orig-name').value);
-  },420);
+  navBack();
 }
 
 /* ── ALL TRANSACTIONS ──────────────────────────── */
@@ -1271,7 +1243,7 @@ function editTx(id){
   // set category after rebuilding options
   requestAnimationFrame(()=>{ document.getElementById('tx-cat').value=t.category; updateNameField(); });
   setPay(t.payment);
-  showSheet();
+  navTo('tx');
 }
 function deleteTx(id){
   openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
@@ -1364,7 +1336,13 @@ function renderPersonsList(){
   c.querySelectorAll('.ccard').forEach(el=>el.addEventListener('click',()=>openPersonDetail(el.dataset.name)));
 }
 let pdShowAllTx=false;
+let pdCurrentName=null;
 function openPersonDetail(name){
+  pdCurrentName=name;
+  navTo('pd');
+}
+function refreshPersonDetail(){
+  const name=pdCurrentName; if(!name) return;
   const persons=getPersons(); const p=persons[name]||{};
   document.getElementById('pd-orig-name').value=name;
   document.getElementById('pd-name').value=name;
@@ -1393,7 +1371,6 @@ function openPersonDetail(name){
     callBtn.href='tel:'+digits; callBtn.style.display='flex';
     waBtn.href='https://wa.me/'+digits+'?text='+encodeURIComponent(msg); waBtn.style.display='flex';
   }else{ callBtn.style.display='none'; waBtn.style.display='none'; }
-  navTo('pd');
 }
 function renderPdTxList(name){
   const rel=[...TX.filter(t=>t.name===name)].sort((a,b)=>b.date.localeCompare(a.date));
@@ -1690,7 +1667,7 @@ document.addEventListener('click',(e)=>{
   const opt=e.target.closest('.name-opt[data-name]');
   if(opt) selectName(opt.dataset.name);
 });
-let pendingTx=null, personSheetOrigin='persons', psBalType='receivable';
+let personSheetOrigin='persons', psBalType='receivable';
 function showPersonSheet(){
   const ov=document.getElementById('ps-ov');
   const sh=document.getElementById('person-sheet');
@@ -1724,42 +1701,14 @@ function openPersonSheetStandalone(){
 }
 function openPersonSheetFromTx(){
   closeNameDropdown();
-  pendingTx={
-    mode:txMode,
-    date:document.getElementById('tx-date').value,
-    cat:document.getElementById('tx-cat').value,
-    amt:document.getElementById('tx-amt').value,
-    desc:document.getElementById('tx-desc').value,
-    pay:txPayMode,
-    eid:document.getElementById('tx-eid').value,
-    shTitle:document.getElementById('sh-title').textContent,
-    shSaveHtml:document.getElementById('sh-save').innerHTML,
-    delDisplay:document.getElementById('sh-del').style.display
-  };
   personSheetOrigin='tx';
-  closeSheet();
-  setTimeout(()=>{ resetPersonSheetFields(); showPersonSheet(); },420);
+  resetPersonSheetFields();
+  showPersonSheet();
 }
-function reopenTxSheetAfterPerson(newName){
-  if(!pendingTx){ showSheet(); return; }
-  setMode(pendingTx.mode);
-  document.getElementById('tx-cat').value=pendingTx.cat;
-  updateNameField();
-  document.getElementById('tx-date').value=pendingTx.date;
-  document.getElementById('tx-amt').value=pendingTx.amt;
-  document.getElementById('tx-desc').value=pendingTx.desc;
-  setPay(pendingTx.pay);
-  document.getElementById('tx-eid').value=pendingTx.eid;
-  document.getElementById('sh-title').textContent=pendingTx.shTitle;
-  document.getElementById('sh-save').innerHTML=pendingTx.shSaveHtml;
-  document.getElementById('sh-del').style.display=pendingTx.delDisplay;
-  if(newName){
-    document.getElementById('tx-name').value=newName;
-    const disp=document.getElementById('name-display');
-    disp.textContent=newName; disp.classList.remove('placeholder');
-  }
-  pendingTx=null;
-  showSheet();
+function selectNewPersonInTxForm(newName){
+  document.getElementById('tx-name').value=newName;
+  const disp=document.getElementById('name-display');
+  disp.textContent=newName; disp.classList.remove('placeholder');
 }
 document.getElementById('persons-fab').addEventListener('click',openPersonSheetStandalone);
 document.getElementById('ps-balance').addEventListener('input',()=>{
@@ -1772,7 +1721,6 @@ document.getElementById('ps-ov').addEventListener('click',()=>document.getElemen
 document.getElementById('ps-close').addEventListener('click',()=>document.getElementById('ps-cancel').click());
 document.getElementById('ps-cancel').addEventListener('click',()=>{
   closePersonSheet();
-  if(personSheetOrigin==='tx') setTimeout(()=>reopenTxSheetAfterPerson(null),420);
 });
 document.getElementById('ps-save').addEventListener('click',()=>{
   const name=document.getElementById('ps-name').value.trim();
@@ -1788,7 +1736,7 @@ document.getElementById('ps-save').addEventListener('click',()=>{
   savePersons(persons);
   closePersonSheet();
   toast('<i class="fa-solid fa-check"></i> Person added');
-  if(personSheetOrigin==='tx') setTimeout(()=>reopenTxSheetAfterPerson(name),420);
+  if(personSheetOrigin==='tx') selectNewPersonInTxForm(name);
   else renderPersonsList();
 });
 // Close dropdown when clicking outside
