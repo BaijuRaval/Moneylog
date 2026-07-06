@@ -101,7 +101,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 .hdr2-sub{font-size:.78rem;font-weight:600;color:var(--t2);margin-top:3px;letter-spacing:-.005em}
 
 /* ── CURVED CONTENT FLOW (header → content) ── */
-.scr-body{position:relative;background:var(--card2);border:1px solid var(--bord);border-top:none;border-bottom:none;border-radius:32px 32px 0 0;margin-top:0;padding-top:24px;box-shadow:0 -10px 26px rgba(0,0,0,.35);min-height:calc(100dvh - var(--hdr2-h))}
+.scr-body{position:relative;background:var(--card2);border:1px solid var(--bord);border-top:none;border-bottom:none;border-radius:32px 32px 0 0;margin-top:0;padding:24px 0 calc(var(--nav-h) + 24px);box-shadow:0 -10px 26px rgba(0,0,0,.35);min-height:calc(100dvh - var(--hdr2-h))}
 
 /* ── BOTTOM NAV (floating) ── */
 .bnav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:406px;height:64px;background:rgba(24,22,43,.82);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border:1px solid var(--bord);border-radius:26px;display:flex;align-items:center;justify-content:space-around;z-index:50;box-shadow:0 16px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.02) inset}
@@ -448,7 +448,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   </div>
 </div>
 
-<div class="view" id="v-home" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-home">
   <div class="hero-section">
   <header class="hdr">
     <div class="hdr-brand">
@@ -516,7 +516,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ ALL TRANSACTIONS ═══════════ -->
-<div class="view" id="v-alltx" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-alltx">
   <header class="hdr2">
     <button class="hdr2-back" id="alltx-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -542,7 +542,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ CASHBOOK ═══════════ -->
-<div class="view" id="v-cashbook" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-cashbook">
   <header class="hdr2">
     <button class="hdr2-back" id="cb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -568,7 +568,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ CREDIT BOOK ═══════════ -->
-<div class="view" id="v-credit" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-credit">
   <header class="hdr2">
     <button class="hdr2-back" id="cr-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -586,7 +586,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ CREDIT DETAIL ═══════════ -->
-<div class="view" id="v-cd" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-cd">
   <header class="hdr2">
     <button class="hdr2-back" id="cd-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -605,7 +605,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ PERSONS LIST ═══════════ -->
-<div class="view" id="v-persons" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-persons">
   <header class="hdr2">
     <button class="hdr2-back" id="pl-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -620,7 +620,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ PERSON DETAIL ═══════════ -->
-<div class="view" id="v-pd" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-pd">
   <header class="hdr2">
     <button class="hdr2-back" id="pd-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -679,7 +679,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 <!-- ═══════════ TRANSFER ═══════════ -->
 
-<div class="view" id="v-transfer" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-transfer">
   <header class="hdr2">
     <button class="hdr2-back" id="txf-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -705,7 +705,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   </div>
   </div>
 </div>
-<div class="view" id="v-reports" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-reports">
   <header class="hdr2">
     <button class="hdr2-back" id="rpt-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -737,7 +737,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 </div>
 
 <!-- ═══════════ SETTINGS ═══════════ -->
-<div class="view" id="v-settings" style="padding-bottom:calc(var(--nav-h) + 24px)">
+<div class="view" id="v-settings">
   <header class="hdr2">
     <button class="hdr2-back" id="set-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
@@ -1797,6 +1797,7 @@ document.addEventListener('click',(e)=>{
     closeNameDropdown();
   }
 });
+
 </script>
 </body>
 </html>
