@@ -1432,19 +1432,21 @@ function deletePersonDetail(){
 }
 function renderCredit(){
   const{recv,pay}=buildCreditMap();
-  const data=creditTab==='recv'?recv:pay;
-  const entries=Object.entries(data).filter(([,v])=>v>0.005);
+  const names=new Set([...Object.keys(recv),...Object.keys(pay)]);
+  const nets={};
+  names.forEach(n=>{ nets[n]=(recv[n]||0)-(pay[n]||0); });
+  const entries=Object.entries(nets).filter(([,v])=>creditTab==='recv'?v>0.005:v<-0.005);
   const c=document.getElementById('credit-list');
   if(!entries.length){
     const msg=creditTab==='recv'?'No money to receive from anyone':'No money to pay to anyone';
     c.innerHTML=`<div class="empty"><div class="empty-ico">${creditTab==='recv'?'<i class="fa-solid fa-circle-check"></i>':'<i class="fa-solid fa-circle-xmark"></i>'}</div><div class="empty-t">All clear!</div><div class="empty-s">${msg}</div></div>`;
     return;
   }
-  c.innerHTML=entries.map(([name,amt],i)=>`
+  c.innerHTML=entries.map(([name,net],i)=>`
     <div class="ccard" style="animation-delay:${i*.04}s" data-name="${esc(name)}">
       <div class="avatar ${creditTab==='recv'?'av-r':'av-p'}">${inits(name)}</div>
       <div class="c-info"><div class="c-name">${esc(name)}</div><div class="c-sub">${creditTab==='recv'?'Owes you':'You owe'}</div></div>
-      <div class="c-amt ${creditTab==='recv'?'r':'p'}">${INR(amt)}</div>
+      <div class="c-amt ${creditTab==='recv'?'r':'p'}">${INR(Math.abs(net))}</div>
       <div class="chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>`).join('');
   c.querySelectorAll('.ccard').forEach(el=>el.addEventListener('click',()=>openPersonDetail(el.dataset.name)));
