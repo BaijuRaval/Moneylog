@@ -78,6 +78,10 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 .hdr-brand{display:flex;align-items:center;gap:9px}
 .hdr-logo{width:34px;height:34px;border-radius:12px;background:var(--g-brand);display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 4px 16px rgba(108,77,255,.45)}
 .hdr-name{font-size:1.05rem;font-weight:800;letter-spacing:-.03em;background:var(--g-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.notif-btn{position:relative;margin-left:auto;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s var(--ease-sp)}
+.notif-btn:active{transform:scale(.88)}
+.notif-btn svg{width:17px;height:17px;stroke:#fff}
+.notif-dot{position:absolute;top:7px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid #1D1046}
 .hdr-title{font-size:1rem;font-weight:700;letter-spacing:-.01em}
 .back-btn{display:flex;align-items:center;gap:5px;color:var(--violet);font-size:.9rem;font-weight:700;padding:6px;border-radius:8px}
 .back-btn:active{opacity:.6}
@@ -168,6 +172,10 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 .pd-edit-btn:active{transform:scale(.88);background:rgba(176,92,255,.14)}
 .pd-edit-btn svg{width:14px;height:14px;stroke:var(--violet)}
 .pd-field{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--bord);gap:12px}
+.pd-field:last-child{border-bottom:none}
+.pd-desc-block{padding:11px 0;border-bottom:1px solid var(--bord)}
+.pd-desc-block:last-child{border-bottom:none}
+.pd-desc-text{font-size:.88rem;color:var(--t1);line-height:1.55;margin-top:6px;white-space:pre-wrap;word-break:break-word}
 .pd-field-lbl{font-size:.8rem;color:var(--t2);flex-shrink:0}
 .pd-field-val{font-size:.9rem;font-weight:700;color:var(--t1);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pd-bal-lbl{font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--t2);margin-bottom:8px}
@@ -455,6 +463,10 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
       <div class="hdr-logo"><i class="fa-solid fa-sack-dollar"></i></div>
       <span class="hdr-name">MoneyLog</span>
     </div>
+    <button class="notif-btn" id="notif-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="notif-dot" id="notif-dot" style="display:none"></span>
+    </button>
   </header>
   <div class="hero">
     <div class="hero-greet" id="greet">Good morning <i class="fa-solid fa-sun"></i></div>
@@ -677,6 +689,45 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
     </div>
   </div>
 </div>
+<!-- ═══════════ NOTIFICATIONS ═══════════ -->
+<div class="view" id="v-notif">
+  <header class="hdr2">
+    <button class="hdr2-back" id="notif-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="hdr2-titles">
+      <div class="hdr2-title">Notifications</div>
+    </div>
+  </header>
+  <div class="scr-body">
+  <div class="tx-list" id="notif-list"></div>
+  </div>
+</div>
+<!-- ═══════════ VIEW TRANSACTION ═══════════ -->
+<div class="view" id="v-txview">
+  <header class="hdr2">
+    <button class="hdr2-back" id="txview-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="hdr2-titles">
+      <div class="hdr2-title">Transaction Details</div>
+    </div>
+  </header>
+  <div class="scr-body">
+    <div class="pd-sec" style="text-align:center">
+      <div class="tx-ico" id="txview-ico" style="width:56px;height:56px;border-radius:18px;margin:0 auto 12px;font-size:1.3rem"></div>
+      <div style="font-size:.8rem;color:var(--t2);margin-bottom:4px;font-weight:700;letter-spacing:-.01em" id="txview-cat"></div>
+      <div class="pd-bal-amt" id="txview-amt" style="margin-bottom:0"></div>
+    </div>
+    <div class="pd-sec">
+      <span class="pd-sec-title" style="display:block;margin-bottom:4px">Details</span>
+      <div id="txview-fields"></div>
+    </div>
+    <div class="pd-sec">
+      <span class="pd-sec-title" style="display:block;margin-bottom:12px">Actions</span>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="sv-btn" id="txview-edit" style="margin-top:0"><i class="fa-solid fa-pen"></i> Edit Transaction</button>
+        <button class="pd-delete-outline" id="txview-delete"><i class="fa-solid fa-trash-can"></i> Delete Transaction</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ═══════════ TRANSFER ═══════════ -->
 
 <div class="view" id="v-transfer">
@@ -801,7 +852,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
       </button>
     </div>
     <div class="flg"><input class="fl" type="number" id="tx-amt" placeholder=" " min="0" step="0.01"><label class="fll">Amount (₹)</label></div>
-    <div class="flg"><input class="fl" type="text" id="tx-desc" placeholder=" " autocomplete="off"><label class="fll">Description (optional)</label></div>
+    <div class="flg"><textarea class="fl" id="tx-desc" placeholder=" " rows="3" style="resize:vertical;min-height:70px;padding-top:22px"></textarea><label class="fll">Description (optional)</label></div>
+    <div class="flg" id="tx-duedate-g" style="display:none"><input class="fl" type="date" id="tx-duedate" placeholder=" "><label class="fll">Due Date (optional)</label></div>
     <div class="ppills" id="tx-pay-g">
       <button class="ppill on" id="pp-cash"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Cash</button>
       <button class="ppill" id="pp-bank"><svg viewBox="0 0 24 24"><path d="M3 22v-8.5M21 22v-8.5M12 22V13M2 19h20M22 10 12 3 2 10h20z"/></svg>Bank</button>
@@ -938,6 +990,18 @@ function bindAll(){
   document.getElementById('set-back').addEventListener('click',navBack);
   /* transaction screen */
   document.getElementById('tx-back').addEventListener('click',navBack);
+  document.getElementById('notif-btn').addEventListener('click',()=>navTo('notif'));
+  document.getElementById('notif-back').addEventListener('click',navBack);
+  document.getElementById('txview-back').addEventListener('click',navBack);
+  document.getElementById('txview-edit').addEventListener('click',()=>editTx(txViewId));
+  document.getElementById('txview-delete').addEventListener('click',()=>{
+    openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
+      const clone=TX.filter(t=>t.id!==txViewId);
+      if(!commitState(clone)) return; // validation failed → TX untouched
+      toast('<i class="fa-solid fa-trash-can"></i> Deleted');
+      navBack();
+    });
+  });
   document.getElementById('sh-save').addEventListener('click',saveTx);
   document.getElementById('sh-del').addEventListener('click',()=>{
     const id=document.getElementById('sh-del').dataset.delId;
@@ -1020,6 +1084,8 @@ function navTo(v,isBack){
   if(v==='settings') initSettings();
   if(v==='persons')  renderPersonsList();
   if(v==='pd')       refreshPersonDetail();
+  if(v==='notif')    renderNotifications();
+  if(v==='txview')   refreshTxView();
   window.scrollTo(0,0);
 }
 function navBack(){
@@ -1031,17 +1097,34 @@ window.addEventListener('popstate',()=>{
 });
 
 /* ── BALANCES ──────────────────────────────────── */
+function notifCardHTML(t,i){
+  const isReceivable=t.category==='Credit Sale'||t.category==='Lent';
+  return `<div class="txc" style="animation-delay:${Math.min(i,12)*.035}s;cursor:pointer" onclick="viewTx('${t.id}')">
+      <div class="txc-inner">
+        <div class="tx-ico ${isReceivable?'in':'out'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">${isReceivable?'<path d="M12 19V5M5 12l7 7 7-7"/>':'<path d="M12 5v14M5 12l7-7 7 7"/>'}</svg></div>
+        <div class="tx-main">
+          <div class="tx-cat">${isReceivable?'Receivable':'Payable'}</div>
+          <div class="tx-name">${esc(t.name||'')}</div>
+        </div>
+        <div class="tx-r"><div class="tx-amt ${isReceivable?'in':'out'}">${isReceivable?'+':'-'}${INR(t.amount)}</div></div>
+      </div>
+    </div>`;
+}
+function renderNotifications(){
+  const list=dueTodayList();
+  const c=document.getElementById('notif-list');
+  c.innerHTML=list.map((t,i)=>notifCardHTML(t,i)).join('');
+}
 function isCreditCat(cat){ return cat==='Credit Sale'||cat==='Credit purchase'; }
 /* SINGLE SOURCE OF TRUTH for transaction card markup — used by All Transactions,
    Cashbook, Person Details, and Credit Detail so every screen renders identically. */
 function txCardHTML(t,i){
-  return `<div class="txc" style="animation-delay:${Math.min(i,12)*.035}s;cursor:pointer" onclick="editTx('${t.id}')">
+  return `<div class="txc" style="animation-delay:${Math.min(i,12)*.035}s;cursor:pointer" onclick="viewTx('${t.id}')">
       <div class="txc-inner">
         <div class="tx-ico ${t.category==='Transfer'?'transfer':t.type}">${t.category==='Transfer'?'⇄':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">${t.type==='in'?'<path d="M12 19V5M5 12l7 7 7-7"/>':'<path d="M12 5v14M5 12l7-7 7 7"/>'}</svg>`}</div>
         <div class="tx-main">
           <div class="tx-cat">${esc(t.category)}</div>
           ${t.category==='Transfer'?`<div class="tx-name">${esc(t.from)} → ${esc(t.to)}</div>`:(t.name?`<div class="tx-name">${esc(t.name)}</div>`:'')}
-          ${t.desc?`<div class="tx-desc">${esc(t.desc)}</div>`:''}
           <div class="tx-meta">
             <span class="tag tag-date">${fds(t.date)}</span>
             <span class="tag ${t.category==='Transfer'?'tag-xfer':(isCreditCat(t.category)?'tag-credit':(t.payment==='Cash'?'tag-cash':'tag-bank'))}">${t.category==='Transfer'?'Transfer':(isCreditCat(t.category)?'Credit':t.payment)}</span>
@@ -1111,12 +1194,18 @@ function buildCreditMap(excludeId){
 }
 
 /* ── HOME ──────────────────────────────────────── */
+function dueTodayList(){
+  const t=today();
+  const cats=['Credit Sale','Credit purchase','Borrowed','Lent'];
+  return TX.filter(x=>x.dueDate===t&&cats.includes(x.category));
+}
 function renderHome(){
   const{cash,bank}=calcBal();
   setEl('h-cash',cash); setEl('h-bank',bank); setEl('h-total',cash+bank);
   const t=today(); let tin=0,tout=0;
   TX.forEach(x=>{ if(x.date!==t||isCreditCat(x.category)||x.category==='Transfer')return; if(x.type==='in')tin+=x.amount; else tout+=x.amount; });
   setEl('h-tin',tin); setEl('h-tout',tout);
+  document.getElementById('notif-dot').style.display=dueTodayList().length?'block':'none';
   const recent=[...TX].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,5);
   const el=document.getElementById('dash-recent');
   if(!recent.length){
@@ -1134,6 +1223,7 @@ function openSheet(mode){
   document.getElementById('tx-date').value=today();
   document.getElementById('tx-amt').value='';
   document.getElementById('tx-desc').value='';
+  document.getElementById('tx-duedate').value='';
   document.getElementById('tx-name').value='';
   const disp=document.getElementById('name-display');
   if(disp){ disp.textContent='Select person…'; disp.classList.add('placeholder'); }
@@ -1160,6 +1250,9 @@ function updateNameField(){
   document.getElementById('tx-name-g').style.display=hide.includes(cat)?'none':'block';
   const hidePay=['Credit Sale','Credit purchase'];
   document.getElementById('tx-pay-g').style.display=hidePay.includes(cat)?'none':'flex';
+  const showDue=['Credit Sale','Credit purchase','Borrowed','Lent'];
+  document.getElementById('tx-duedate-g').style.display=showDue.includes(cat)?'block':'none';
+  if(!showDue.includes(cat)) document.getElementById('tx-duedate').value='';
 }
 function setPay(p){
   txPayMode=p;
@@ -1173,6 +1266,7 @@ function saveTx(){
   const name=document.getElementById('tx-name').value.trim();
   const amt=parseFloat(document.getElementById('tx-amt').value);
   const desc=document.getElementById('tx-desc').value.trim();
+  const dueDate=document.getElementById('tx-duedate').value||'';
   const pay=document.getElementById('tx-pay').value;
   const eid=document.getElementById('tx-eid').value;
   if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Select a date'); return; }
@@ -1183,9 +1277,9 @@ function saveTx(){
   const clone=[...TX];
   if(eid){
     const i=clone.findIndex(t=>t.id===eid);
-    if(i>-1) clone[i]={...clone[i],date,category:cat,name,amount:amt,desc,payment:pay,type};
+    if(i>-1) clone[i]={...clone[i],date,category:cat,name,amount:amt,desc,payment:pay,type,dueDate};
   }else{
-    clone.unshift({id:uid(),type,date,category:cat,name,amount:amt,desc,payment:pay});
+    clone.unshift({id:uid(),type,date,category:cat,name,amount:amt,desc,payment:pay,dueDate});
   }
   if(!commitState(clone)) return; // validation failed → clone discarded, TX untouched
   toast(eid?'<i class="fa-solid fa-check"></i> Updated':'<i class="fa-solid fa-check"></i> Saved');
@@ -1228,6 +1322,34 @@ function renderCashbook(){
   c.innerHTML=list.map((t,i)=>txCardHTML(t,i)).join('');
 
 }
+let txViewId=null;
+function viewTx(id){
+  txViewId=id;
+  navTo('txview');
+}
+function refreshTxView(){
+  const t=TX.find(x=>x.id===txViewId);
+  if(!t){ navBack(); return; }
+  const isXfer=t.category==='Transfer';
+  const ico=document.getElementById('txview-ico');
+  ico.className='tx-ico '+(isXfer?'transfer':t.type);
+  ico.innerHTML=isXfer?'⇄':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="24" height="24">${t.type==='in'?'<path d="M12 19V5M5 12l7 7 7-7"/>':'<path d="M12 5v14M5 12l7-7 7 7"/>'}</svg>`;
+  document.getElementById('txview-cat').textContent=t.category;
+  const amtEl=document.getElementById('txview-amt');
+  amtEl.textContent=(isXfer?'':(t.type==='in'?'+':'-'))+INR(t.amount);
+  amtEl.className='pd-bal-amt '+(isXfer?'z':(t.type==='in'?'g':'r'));
+  let rows=`<div class="pd-field"><span class="pd-field-lbl">Date</span><span class="pd-field-val">${fd(t.date)}</span></div>`;
+  if(isXfer){
+    rows+=`<div class="pd-field"><span class="pd-field-lbl">From</span><span class="pd-field-val">${esc(t.from)}</span></div>`;
+    rows+=`<div class="pd-field"><span class="pd-field-lbl">To</span><span class="pd-field-val">${esc(t.to)}</span></div>`;
+  }else{
+    if(t.name) rows+=`<div class="pd-field"><span class="pd-field-lbl">Person</span><span class="pd-field-val">${esc(t.name)}</span></div>`;
+    rows+=`<div class="pd-field"><span class="pd-field-lbl">Payment</span><span class="pd-field-val">${isCreditCat(t.category)?'Credit':t.payment}</span></div>`;
+  }
+  if(t.dueDate) rows+=`<div class="pd-field"><span class="pd-field-lbl">Due Date</span><span class="pd-field-val">${fd(t.dueDate)}</span></div>`;
+  if(t.desc) rows+=`<div class="pd-desc-block"><span class="pd-field-lbl">Description</span><div class="pd-desc-text">${esc(t.desc)}</div></div>`;
+  document.getElementById('txview-fields').innerHTML=rows;
+}
 function editTx(id){
   const t=TX.find(x=>x.id===id); if(!t)return;
   if(t.category==='Transfer'){ editTransfer(id); return; }
@@ -1246,8 +1368,8 @@ function editTx(id){
   document.getElementById('sh-del').style.display='block';
   document.getElementById('sh-del').dataset.delId=id;
   setMode(t.type==='in'?'inc':'exp');
-  // set category after rebuilding options
-  requestAnimationFrame(()=>{ document.getElementById('tx-cat').value=t.category; updateNameField(); });
+  // set category after rebuilding options, then restore due date (updateNameField clears it during the rebuild above)
+  requestAnimationFrame(()=>{ document.getElementById('tx-cat').value=t.category; updateNameField(); document.getElementById('tx-duedate').value=t.dueDate||''; });
   setPay(t.payment);
   navTo('tx');
 }
