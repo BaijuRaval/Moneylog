@@ -131,6 +131,9 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 .ob-help{font-size:.78rem;color:var(--t2);text-align:center;line-height:1.6;margin-bottom:24px}
 .ob-tip{font-size:.78rem;color:var(--t2);background:rgba(176,92,255,.1);border:1px solid rgba(176,92,255,.2);border-radius:var(--r-md);padding:11px 13px;margin-bottom:20px;line-height:1.5}
 .hero-greet{font-size:.78rem;color:var(--t2);margin-bottom:3px}
+.dash-date-pill{position:relative;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:700;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:7px 14px;margin-bottom:10px;transition:transform .15s var(--ease-sp),background .15s}
+.dash-date-pill:active{transform:scale(.96);background:rgba(255,255,255,.16)}
+.dash-date-pill i{font-size:.8rem;opacity:.85}
 .hero-lbl{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#C9BBFA;margin-bottom:6px}
 .hero-total{font-size:2.55rem;font-weight:800;letter-spacing:-.05em;background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:20px;transition:opacity .3s}
 .hero-row{display:flex;gap:10px}
@@ -469,59 +472,59 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
     </button>
   </header>
   <div class="hero">
-    <div class="hero-greet" id="greet">Good morning <i class="fa-solid fa-sun"></i></div>
-    <div class="hero-lbl">Total Balance</div>
+    <div class="dash-date-pill" id="dash-date"><i class="fa-solid fa-calendar-days"></i> <span id="dash-date-txt"></span><input type="date" id="dash-date-input" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none"></div>
+    <div class="hero-lbl" data-i18n="totalBalance">Total Balance</div>
     <div class="hero-total" id="h-total">₹0</div>
     <div class="hero-row">
-      <div class="hero-mini"><div class="ml"><i class="fa-solid fa-money-bill-wave"></i> In Hand</div><div class="mv" id="h-cash">₹0</div></div>
-      <div class="hero-mini"><div class="ml"><i class="fa-solid fa-building-columns"></i> In Bank</div><div class="mv" id="h-bank">₹0</div></div>
+      <div class="hero-mini"><div class="ml"><i class="fa-solid fa-money-bill-wave"></i> <span data-i18n="inHand">In Hand</span></div><div class="mv" id="h-cash">₹0</div></div>
+      <div class="hero-mini"><div class="ml"><i class="fa-solid fa-building-columns"></i> <span data-i18n="inBank">In Bank</span></div><div class="mv" id="h-bank">₹0</div></div>
     </div>
   </div>
   <div class="chips">
-    <div class="chip"><div class="chip-ico in"><i class="fa-solid fa-arrow-trend-down"></i></div><div><div class="chip-lbl">Today In</div><div class="chip-val g" id="h-tin">₹0</div></div></div>
-    <div class="chip"><div class="chip-ico out"><i class="fa-solid fa-arrow-trend-up"></i></div><div><div class="chip-lbl">Today Out</div><div class="chip-val r" id="h-tout">₹0</div></div></div>
+    <div class="chip"><div class="chip-ico in"><i class="fa-solid fa-arrow-trend-down"></i></div><div><div class="chip-lbl" data-i18n="todayIn">Today In</div><div class="chip-val g" id="h-tin">₹0</div></div></div>
+    <div class="chip"><div class="chip-ico out"><i class="fa-solid fa-arrow-trend-up"></i></div><div><div class="chip-lbl" data-i18n="todayOut">Today Out</div><div class="chip-val r" id="h-tout">₹0</div></div></div>
   </div>
   </div>
   <div class="scr-body" style="margin-top:-18px;padding-top:24px">
-  <div class="sec"><span class="sec-t"><i class="fa-solid fa-bolt"></i> Quick Actions</span></div>
+  <div class="sec"><span class="sec-t"><i class="fa-solid fa-bolt"></i> <span data-i18n="quickActions">Quick Actions</span></span></div>
   <div class="agrid">
     <div class="acard a-in" id="btn-in">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></div>
-      <div><div class="a-name">Money In</div><div class="a-sub"><i class="fa-solid fa-arrow-down"></i> Record income</div></div>
+      <div><div class="a-name" data-i18n="moneyIn">Money In</div><div class="a-sub"><i class="fa-solid fa-arrow-down"></i> <span data-i18n="recordIncome">Record income</span></div></div>
     </div>
     <div class="acard a-out" id="btn-out">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg></div>
-      <div><div class="a-name">Money Out</div><div class="a-sub"><i class="fa-solid fa-arrow-up"></i> Record expense</div></div>
+      <div><div class="a-name" data-i18n="moneyOut">Money Out</div><div class="a-sub"><i class="fa-solid fa-arrow-up"></i> <span data-i18n="recordExpense">Record expense</span></div></div>
     </div>
     <div class="acard a-transfer" id="btn-transfer">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 3L21 7L17 11"/><path d="M21 7H9"/><path d="M7 21L3 17L7 13"/><path d="M3 17H15"/></svg></div>
-      <div><div class="a-name">Transfer</div><div class="a-sub"><i class="fa-solid fa-right-left"></i> Cash ⇄ Bank</div></div>
+      <div><div class="a-name" data-i18n="transferName">Transfer</div><div class="a-sub"><i class="fa-solid fa-right-left"></i> <span data-i18n="cashBankArrow">Cash ⇄ Bank</span></div></div>
     </div>
     <div class="acard a-book" id="btn-cash">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div><div class="a-name">Cashbook</div><div class="a-sub"><i class="fa-solid fa-list"></i> All transactions</div></div>
+      <div><div class="a-name" data-i18n="navCashbook">Cashbook</div><div class="a-sub"><i class="fa-solid fa-list"></i> <span data-i18n="allTransactionsSub">All transactions</span></div></div>
     </div>
     <div class="acard a-credit" id="btn-credit">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div><div class="a-name">Credit Book</div><div class="a-sub"><i class="fa-solid fa-handshake"></i> Dues &amp; loans</div></div>
+      <div><div class="a-name" data-i18n="creditBookName">Credit Book</div><div class="a-sub"><i class="fa-solid fa-handshake"></i> <span data-i18n="duesLoans">Dues &amp; loans</span></div></div>
     </div>
     <div class="acard a-persons" id="btn-persons">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div><div class="a-name">Persons</div><div class="a-sub"><i class="fa-solid fa-address-book"></i> Manage contacts</div></div>
+      <div><div class="a-name" data-i18n="personsName">Persons</div><div class="a-sub"><i class="fa-solid fa-address-book"></i> <span data-i18n="manageContacts">Manage contacts</span></div></div>
     </div>
     <div class="acard a-report" id="btn-report">
       <div class="rip-c"></div>
       <div class="a-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-      <div><div class="a-name">Reports</div><div class="a-sub"><i class="fa-solid fa-chart-pie"></i> Charts &amp; summaries</div></div>
+      <div><div class="a-name" data-i18n="navReports">Reports</div><div class="a-sub"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="chartsSummaries">Charts &amp; summaries</span></div></div>
     </div>
   </div>
-  <div class="sec" style="margin-top:16px"><span class="sec-t"><i class="fa-solid fa-clock-rotate-left"></i> Recent</span><span class="sec-l" id="see-all">See all →</span></div>
+  <div class="sec" style="margin-top:16px"><span class="sec-t"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="recent">Recent</span></span><span class="sec-l" id="see-all" data-i18n="seeAll">See all →</span></div>
   <div class="mini-list" id="dash-recent"></div>
   <div class="sp" style="height:32px"></div>
   </div>
@@ -532,8 +535,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="alltx-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">All Transactions</div>
-    <div class="hdr2-sub">Complete History</div>
+      <div class="hdr2-title" data-i18n="allTransactions">All Transactions</div>
+    <div class="hdr2-sub" data-i18n="completeHistory">Complete History</div>
     </div>
   </header>
   <div class="scr-body">
@@ -558,8 +561,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="cb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Cashbook</div>
-    <div class="hdr2-sub">All Transactions</div>
+      <div class="hdr2-title" data-i18n="navCashbook">Cashbook</div>
+    <div class="hdr2-sub" data-i18n="allTransactions">All Transactions</div>
     </div>
   </header>
   <div class="scr-body">
@@ -584,8 +587,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="cr-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Credit Book</div>
-    <div class="hdr2-sub">Receivables &amp; Payables</div>
+      <div class="hdr2-title" data-i18n="creditBookName">Credit Book</div>
+    <div class="hdr2-sub" data-i18n="receivablesPayables">Receivables &amp; Payables</div>
     </div>
   </header>
   <div class="scr-body">
@@ -603,7 +606,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
     <button class="hdr2-back" id="cd-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
       <div class="hdr2-title" id="cd-title">Detail</div>
-    <div class="hdr2-sub">Transaction History</div>
+    <div class="hdr2-sub" data-i18n="transactionHistory">Transaction History</div>
     </div>
   </header>
   <div class="scr-body">
@@ -621,8 +624,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="pl-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Persons</div>
-    <div class="hdr2-sub">Manage Contacts</div>
+      <div class="hdr2-title" data-i18n="personsName">Persons</div>
+    <div class="hdr2-sub" data-i18n="manageContactsCap">Manage Contacts</div>
     </div>
     <button class="hdr2-add" id="persons-fab"><i class="fa-solid fa-plus"></i></button>
   </header>
@@ -694,7 +697,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="notif-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Notifications</div>
+      <div class="hdr2-title" data-i18n="notifications">Notifications</div>
     </div>
   </header>
   <div class="scr-body">
@@ -706,7 +709,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="txview-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Transaction Details</div>
+      <div class="hdr2-title" data-i18n="transactionDetails">Transaction Details</div>
     </div>
   </header>
   <div class="scr-body">
@@ -735,7 +738,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
     <button class="hdr2-back" id="txf-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
       <div class="hdr2-title" id="txf-title">Transfer</div>
-    <div class="hdr2-sub">Cash ⇄ Bank</div>
+    <div class="hdr2-sub" data-i18n="cashBankArrow">Cash ⇄ Bank</div>
     </div>
   </header>
   <div class="scr-body">
@@ -760,8 +763,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="rpt-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Reports</div>
-    <div class="hdr2-sub">Analytics &amp; Insights</div>
+      <div class="hdr2-title" data-i18n="navReports">Reports</div>
+    <div class="hdr2-sub" data-i18n="analyticsInsights">Analytics &amp; Insights</div>
     </div>
   </header>
   <div class="scr-body">
@@ -792,35 +795,42 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <header class="hdr2">
     <button class="hdr2-back" id="set-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="hdr2-titles">
-      <div class="hdr2-title">Settings</div>
-    <div class="hdr2-sub">Backup &amp; Data</div>
+      <div class="hdr2-title" data-i18n="navSettings">Settings</div>
+    <div class="hdr2-sub" data-i18n="backupData">Backup &amp; Data</div>
     </div>
   </header>
   <div class="scr-body">
   <div class="slist">
     <div class="sgrp">
-      <div class="sgrp-lbl">Data</div>
-      <div class="sitem" id="s-backup"><div class="si-ico bl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="si-t"><div class="si-lbl">Backup JSON</div><div class="si-sub">Download all data</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-      <div class="sitem" id="s-restore"><div class="si-ico gn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div class="si-t"><div class="si-lbl">Restore JSON</div><div class="si-sub">Load from backup</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
-      <input type="file" id="restore-file" accept=".json" style="display:none">
-      <div class="sitem" id="s-csv"><div class="si-ico am"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="si-t"><div class="si-lbl">Export CSV</div><div class="si-sub">Spreadsheet format</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="sgrp-lbl" data-i18n="language">Language</div>
+      <div class="ppills" id="lang-pills" style="margin:10px 15px 14px;width:calc(100% - 30px)">
+        <button type="button" class="ppill on" id="lang-en">English</button>
+        <button type="button" class="ppill" id="lang-gu">ગુજરાતી</button>
+      </div>
     </div>
     <div class="sgrp">
-      <div class="sgrp-lbl">Danger Zone</div>
-      <div class="sitem" id="s-reset"><div class="si-ico rd"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div><div class="si-t"><div class="si-lbl" style="color:var(--red)">Reset All Data</div><div class="si-sub">Cannot be undone</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="sgrp-lbl" data-i18n="data">Data</div>
+      <div class="sitem" id="s-backup"><div class="si-ico bl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="backupJson">Backup JSON</div><div class="si-sub" data-i18n="downloadAllData">Download all data</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <div class="sitem" id="s-restore"><div class="si-ico gn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="restoreJson">Restore JSON</div><div class="si-sub" data-i18n="loadFromBackup">Load from backup</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+      <input type="file" id="restore-file" accept=".json" style="display:none">
+      <div class="sitem" id="s-csv"><div class="si-ico am"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="exportCsv">Export CSV</div><div class="si-sub" data-i18n="spreadsheetFormat">Spreadsheet format</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
     </div>
-    <div style="text-align:center;padding:6px 0"><span style="font-size:.68rem;color:var(--t3)"><i class="fa-solid fa-sack-dollar"></i> MoneyLog · <i class="fa-solid fa-shield-halved"></i> All data stored locally</span></div>
+    <div class="sgrp">
+      <div class="sgrp-lbl" data-i18n="dangerZone">Danger Zone</div>
+      <div class="sitem" id="s-reset"><div class="si-ico rd"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div><div class="si-t"><div class="si-lbl" style="color:var(--red)" data-i18n="resetAllData">Reset All Data</div><div class="si-sub" data-i18n="cannotBeUndone">Cannot be undone</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+    </div>
+    <div style="text-align:center;padding:6px 0"><span style="font-size:.68rem;color:var(--t3)"><i class="fa-solid fa-sack-dollar"></i> MoneyLog · <i class="fa-solid fa-shield-halved"></i> <span data-i18n="dataStoredLocally">All data stored locally</span></span></div>
   </div>
   </div>
 </div>
 
 <!-- ═══════════ BOTTOM NAV ═══════════ -->
 <nav class="bnav">
-  <div class="ni on" data-nav="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></div>
-  <div class="ni" data-nav="cashbook"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Cashbook</span></div>
-  <div class="ni" data-nav="credit"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Credit</span></div>
-  <div class="ni" data-nav="reports"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reports</span></div>
-  <div class="ni" data-nav="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Settings</span></div>
+  <div class="ni on" data-nav="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span data-i18n="navHome">Home</span></div>
+  <div class="ni" data-nav="cashbook"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span data-i18n="navCashbook">Cashbook</span></div>
+  <div class="ni" data-nav="credit"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="navCredit">Credit</span></div>
+  <div class="ni" data-nav="reports"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span data-i18n="navReports">Reports</span></div>
+  <div class="ni" data-nav="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span data-i18n="navSettings">Settings</span></div>
 </nav>
 
 <!-- ═══════════ ADD/EDIT BOTTOM SHEET ═══════════ -->
@@ -834,29 +844,29 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <div class="scr-body">
   <div style="padding:0 18px">
     <div class="ttog">
-      <button class="tt-btn inc" id="tt-inc"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg>Money In</button>
-      <button class="tt-btn exp" id="tt-exp"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg>Money Out</button>
+      <button class="tt-btn inc" id="tt-inc"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg><span data-i18n="moneyIn">Money In</span></button>
+      <button class="tt-btn exp" id="tt-exp"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg><span data-i18n="moneyOut">Money Out</span></button>
     </div>
-    <div class="flg"><input class="fl" type="date" id="tx-date" placeholder=" "><label class="fll">Date</label></div>
-    <div class="sel-wrap"><span class="sel-lbl">Category</span><select class="sel" id="tx-cat"></select></div>
+    <div class="flg"><input class="fl" type="date" id="tx-date" placeholder=" "><label class="fll" data-i18n="date">Date</label></div>
+    <div class="sel-wrap"><span class="sel-lbl" data-i18n="category">Category</span><select class="sel" id="tx-cat"></select></div>
     <div class="flg" id="tx-name-g">
       <input type="hidden" id="tx-name">
       <div class="name-dropdown" id="name-dropdown" onclick="toggleNameDropdown()">
-        <span id="name-display" class="placeholder">Select person…</span>
+        <span id="name-display" class="placeholder" data-i18n="selectPerson">Select person…</span>
         <svg class="name-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
         <div class="name-options" id="name-options"></div>
       </div>
       <button type="button" class="add-person-btn" id="add-person-btn" onclick="openPersonSheetFromTx()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add New Person
+        <span data-i18n="addNewPerson">Add New Person</span>
       </button>
     </div>
-    <div class="flg"><input class="fl" type="number" id="tx-amt" placeholder=" " min="0" step="0.01"><label class="fll">Amount (₹)</label></div>
-    <div class="flg"><textarea class="fl" id="tx-desc" placeholder=" " rows="3" style="resize:vertical;min-height:70px;padding-top:22px"></textarea><label class="fll">Description (optional)</label></div>
-    <div class="flg" id="tx-duedate-g" style="display:none"><input class="fl" type="date" id="tx-duedate" placeholder=" "><label class="fll">Due Date (optional)</label></div>
+    <div class="flg"><input class="fl" type="number" id="tx-amt" placeholder=" " min="0" step="0.01"><label class="fll" data-i18n="amount">Amount (₹)</label></div>
+    <div class="flg"><textarea class="fl" id="tx-desc" placeholder=" " rows="3" style="resize:vertical;min-height:70px;padding-top:22px"></textarea><label class="fll" data-i18n="description">Description (optional)</label></div>
+    <div class="flg" id="tx-duedate-g" style="display:none"><input class="fl" type="date" id="tx-duedate" placeholder=" "><label class="fll" data-i18n="dueDate">Due Date (optional)</label></div>
     <div class="ppills" id="tx-pay-g">
-      <button class="ppill on" id="pp-cash"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Cash</button>
-      <button class="ppill" id="pp-bank"><svg viewBox="0 0 24 24"><path d="M3 22v-8.5M21 22v-8.5M12 22V13M2 19h20M22 10 12 3 2 10h20z"/></svg>Bank</button>
+      <button class="ppill on" id="pp-cash"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span data-i18n="cash">Cash</span></button>
+      <button class="ppill" id="pp-bank"><svg viewBox="0 0 24 24"><path d="M3 22v-8.5M21 22v-8.5M12 22V13M2 19h20M22 10 12 3 2 10h20z"/></svg><span data-i18n="bank">Bank</span></button>
     </div>
     <input type="hidden" id="tx-pay" value="Cash">
     <input type="hidden" id="tx-eid" value="">
@@ -917,7 +927,78 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 /* ============================================================
    CASHBOOK APP — single file, vanilla JS, localStorage
 ============================================================ */
-const KTX='cb_tx', KCFG='cb_cfg';
+const KTX='cb_tx', KCFG='cb_cfg', KLANG='cb_lang';
+const I18N={
+  en:{
+    navHome:'Home', navCashbook:'Cashbook', navCredit:'Credit', navReports:'Reports', navSettings:'Settings',
+    totalBalance:'Total Balance', inHand:'In Hand', inBank:'In Bank', todayIn:'Today In', todayOut:'Today Out',
+    quickActions:'Quick Actions', recordIncome:'Record income', recordExpense:'Record expense',
+    moneyIn:'Money In', moneyOut:'Money Out', transferName:'Transfer', cashBankArrow:'Cash ⇄ Bank',
+    allTransactionsSub:'All transactions', creditBookName:'Credit Book', duesLoans:'Dues & loans',
+    personsName:'Persons', manageContacts:'Manage contacts', chartsSummaries:'Charts & summaries',
+    recent:'Recent', seeAll:'See all →',
+    allTransactions:'All Transactions', completeHistory:'Complete History',
+    receivablesPayables:'Receivables & Payables', transactionHistory:'Transaction History',
+    manageContactsCap:'Manage Contacts', notifications:'Notifications', transactionDetails:'Transaction Details',
+    analyticsInsights:'Analytics & Insights', backupData:'Backup & Data',
+    language:'Language', data:'Data', backupJson:'Backup JSON', downloadAllData:'Download all data',
+    restoreJson:'Restore JSON', loadFromBackup:'Load from backup', exportCsv:'Export CSV',
+    spreadsheetFormat:'Spreadsheet format', dangerZone:'Danger Zone', resetAllData:'Reset All Data',
+    cannotBeUndone:'Cannot be undone', dataStoredLocally:'All data stored locally',
+    date:'Date', category:'Category', amount:'Amount (₹)', description:'Description (optional)',
+    dueDate:'Due Date (optional)', cash:'Cash', bank:'Bank', save:'Save', cancel:'Cancel',
+    delete:'Delete', edit:'Edit', saveTransaction:'Save Transaction', updateTransaction:'Update',
+    addTransaction:'Add Transaction', editTransaction:'Edit Transaction', addNewPerson:'Add New Person',
+    selectPerson:'Select person…', receivable:'Receivable', payable:'Payable', settled:'✔ Settled',
+    outstandingBalance:'Outstanding Balance', owesYou:'Owes you', youOwe:'You owe',
+    cat_Sale:'Sale', cat_Purchase:'Purchase', cat_Income:'Income', cat_Expense:'Expense',
+    cat_Lent:'Lent', 'cat_Credit Sale':'Credit Sale', 'cat_Credit purchase':'Credit purchase',
+    cat_Borrowed:'Borrowed', 'cat_Lent Collected':'Lent Collected', 'cat_Borrow Repaid':'Borrow Repaid'
+  },
+  gu:{
+    navHome:'હોમ', navCashbook:'કેશબુક', navCredit:'ક્રેડિટ', navReports:'રિપોર્ટ્સ', navSettings:'સેટિંગ્સ',
+    totalBalance:'કુલ બેલેન્સ', inHand:'હાથમાં રોકડ', inBank:'બેંકમાં', todayIn:'આજની આવક', todayOut:'આજનો ખર્ચ',
+    quickActions:'ઝડપી ક્રિયાઓ', recordIncome:'આવક નોંધો', recordExpense:'ખર્ચ નોંધો',
+    moneyIn:'પૈસા આવક', moneyOut:'પૈસા ખર્ચ', transferName:'ટ્રાન્સફર', cashBankArrow:'રોકડ ⇄ બેંક',
+    allTransactionsSub:'બધા વ્યવહારો', creditBookName:'ક્રેડિટ બુક', duesLoans:'લેણું અને ધીરાણ',
+    personsName:'વ્યક્તિઓ', manageContacts:'સંપર્કો સંભાળો', chartsSummaries:'ચાર્ટ્સ અને સારાંશ',
+    recent:'તાજેતરના', seeAll:'બધા જુઓ →',
+    allTransactions:'બધા વ્યવહારો', completeHistory:'સંપૂર્ણ ઇતિહાસ',
+    receivablesPayables:'લેણું અને દેવું', transactionHistory:'વ્યવહાર ઇતિહાસ',
+    manageContactsCap:'સંપર્કો સંભાળો', notifications:'સૂચનાઓ', transactionDetails:'વ્યવહારની વિગતો',
+    analyticsInsights:'વિશ્લેષણ અને માહિતી', backupData:'બેકઅપ અને ડેટા',
+    language:'ભાષા', data:'ડેટા', backupJson:'બેકઅપ JSON', downloadAllData:'બધો ડેટા ડાઉનલોડ કરો',
+    restoreJson:'JSON પુનઃસ્થાપિત કરો', loadFromBackup:'બેકઅપમાંથી લોડ કરો', exportCsv:'CSV એક્સપોર્ટ કરો',
+    spreadsheetFormat:'સ્પ્રેડશીટ ફોર્મેટ', dangerZone:'જોખમી ઝોન', resetAllData:'બધો ડેટા રીસેટ કરો',
+    cannotBeUndone:'આ પાછું લઈ શકાશે નહીં', dataStoredLocally:'બધો ડેટા સ્થાનિક રીતે સંગ્રહાયેલ છે',
+    date:'તારીખ', category:'શ્રેણી', amount:'રકમ (₹)', description:'વર્ણન (વૈકલ્પિક)',
+    dueDate:'નિયત તારીખ (વૈકલ્પિક)', cash:'રોકડ', bank:'બેંક', save:'સાચવો', cancel:'રદ કરો',
+    delete:'ડિલીટ કરો', edit:'સંપાદિત કરો', saveTransaction:'વ્યવહાર સાચવો', updateTransaction:'અપડેટ કરો',
+    addTransaction:'વ્યવહાર ઉમેરો', editTransaction:'વ્યવહાર સંપાદિત કરો', addNewPerson:'નવી વ્યક્તિ ઉમેરો',
+    selectPerson:'વ્યક્તિ પસંદ કરો…', receivable:'લેણું', payable:'દેવું', settled:'✔ પતાવેલું',
+    outstandingBalance:'બાકી રકમ', owesYou:'તમને લેણું', youOwe:'તમારે દેવું',
+    cat_Sale:'વેચાણ', cat_Purchase:'ખરીદી', cat_Income:'આવક', cat_Expense:'ખર્ચ',
+    cat_Lent:'ધીરેલું', 'cat_Credit Sale':'ક્રેડિટ વેચાણ', 'cat_Credit purchase':'ક્રેડિટ ખરીદી',
+    cat_Borrowed:'ઉધાર લીધેલું', 'cat_Lent Collected':'ધીરેલું વસૂલ્યું', 'cat_Borrow Repaid':'ઉધાર ચૂકવ્યું'
+  }
+};
+let curLang=localStorage.getItem(KLANG)||'en';
+function tr(key){ return (I18N[curLang]&&I18N[curLang][key])||(I18N.en[key])||key; }
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=tr(el.dataset.i18n); });
+  document.getElementById('lang-en').classList.toggle('on',curLang==='en');
+  document.getElementById('lang-gu').classList.toggle('on',curLang==='gu');
+}
+function setLang(l){
+  curLang=l;
+  localStorage.setItem(KLANG,l);
+  applyI18n();
+  if(document.getElementById('v-tx').classList.contains('active')){
+    const opts=document.querySelectorAll('#tx-cat option');
+    opts.forEach(o=>{ o.textContent=tr('cat_'+o.value); });
+  }
+  if(curView==='home') renderHome();
+}
 let TX=[], CFG={cash:0,bank:0,configured:false};
 let curView='home', creditTab='recv', rptPeriod='today', rptPay='all';
 let txMode='inc', txPayMode='Cash', txfFrom='Cash';
@@ -927,9 +1008,8 @@ let cFlow=null, cCat=null, modalOkCb=null;
 function boot(){
   try{ TX=JSON.parse(localStorage.getItem(KTX))||[]; }catch{ TX=[]; }
   try{ CFG={cash:0,bank:0,configured:false,...JSON.parse(localStorage.getItem(KCFG))}; }catch{}
-  const h=new Date().getHours();
-  document.getElementById('greet').innerHTML = h<12?'Good morning <i class="fa-solid fa-sun"></i>':h<17?'Good afternoon <i class="fa-solid fa-cloud-sun"></i>':'Good evening <i class="fa-solid fa-moon"></i>';
   bindAll();
+  applyI18n();
   if(!CFG.configured){ document.querySelector('.bnav').style.display='none'; navTo('obsetup'); }
   else{ document.querySelector('.bnav').style.display=''; navTo('home'); }
 }
@@ -943,6 +1023,8 @@ const INR=n=>'₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2}
 const today=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
 function localISO(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function fd(d){ if(!d)return''; const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
+function fmtLongDate(d){ if(!d)return''; const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); }
+let dashDate=today();
 function fds(d){ if(!d)return''; const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString('en-IN',{day:'numeric',month:'short'}); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function inits(n){ return String(n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?'; }
@@ -991,6 +1073,17 @@ function bindAll(){
   /* transaction screen */
   document.getElementById('tx-back').addEventListener('click',navBack);
   document.getElementById('notif-btn').addEventListener('click',()=>navTo('notif'));
+  document.getElementById('lang-en').addEventListener('click',()=>setLang('en'));
+  document.getElementById('lang-gu').addEventListener('click',()=>setLang('gu'));
+  document.getElementById('dash-date').addEventListener('click',()=>{
+    const inp=document.getElementById('dash-date-input');
+    inp.value=dashDate;
+    if(inp.showPicker){ try{ inp.showPicker(); }catch{ inp.click(); } } else inp.click();
+  });
+  document.getElementById('dash-date-input').addEventListener('change',e=>{
+    dashDate=e.target.value||today();
+    renderHome();
+  });
   document.getElementById('notif-back').addEventListener('click',navBack);
   document.getElementById('txview-back').addEventListener('click',navBack);
   document.getElementById('txview-edit').addEventListener('click',()=>editTx(txViewId));
@@ -1103,7 +1196,7 @@ function notifCardHTML(t,i){
       <div class="txc-inner">
         <div class="tx-ico ${isReceivable?'in':'out'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">${isReceivable?'<path d="M12 19V5M5 12l7 7 7-7"/>':'<path d="M12 5v14M5 12l7-7 7 7"/>'}</svg></div>
         <div class="tx-main">
-          <div class="tx-cat">${isReceivable?'Receivable':'Payable'}</div>
+          <div class="tx-cat">${isReceivable?tr('receivable'):tr('payable')}</div>
           <div class="tx-name">${esc(t.name||'')}</div>
         </div>
         <div class="tx-r"><div class="tx-amt ${isReceivable?'in':'out'}">${isReceivable?'+':'-'}${INR(t.amount)}</div></div>
@@ -1123,7 +1216,7 @@ function txCardHTML(t,i){
       <div class="txc-inner">
         <div class="tx-ico ${t.category==='Transfer'?'transfer':t.type}">${t.category==='Transfer'?'⇄':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">${t.type==='in'?'<path d="M12 19V5M5 12l7 7 7-7"/>':'<path d="M12 5v14M5 12l7-7 7 7"/>'}</svg>`}</div>
         <div class="tx-main">
-          <div class="tx-cat">${esc(t.category)}</div>
+          <div class="tx-cat">${t.category==='Transfer'?tr('transferName'):tr('cat_'+t.category)}</div>
           ${t.category==='Transfer'?`<div class="tx-name">${esc(t.from)} → ${esc(t.to)}</div>`:(t.name?`<div class="tx-name">${esc(t.name)}</div>`:'')}
           <div class="tx-meta">
             <span class="tag tag-date">${fds(t.date)}</span>
@@ -1200,11 +1293,12 @@ function dueTodayList(){
   return TX.filter(x=>x.dueDate===t&&cats.includes(x.category));
 }
 function renderHome(){
-  const{cash,bank}=calcBal();
+  const{cash,bank}=computeState(TX.filter(x=>x.date<=dashDate),CFG);
   setEl('h-cash',cash); setEl('h-bank',bank); setEl('h-total',cash+bank);
-  const t=today(); let tin=0,tout=0;
+  const t=dashDate; let tin=0,tout=0;
   TX.forEach(x=>{ if(x.date!==t||isCreditCat(x.category)||x.category==='Transfer')return; if(x.type==='in')tin+=x.amount; else tout+=x.amount; });
   setEl('h-tin',tin); setEl('h-tout',tout);
+  document.getElementById('dash-date-txt').textContent=fmtLongDate(dashDate);
   document.getElementById('notif-dot').style.display=dueTodayList().length?'block':'none';
   const recent=[...TX].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,5);
   const el=document.getElementById('dash-recent');
@@ -1226,22 +1320,23 @@ function openSheet(mode){
   document.getElementById('tx-duedate').value='';
   document.getElementById('tx-name').value='';
   const disp=document.getElementById('name-display');
-  if(disp){ disp.textContent='Select person…'; disp.classList.add('placeholder'); }
-  document.getElementById('sh-title').textContent='Add Transaction';
-  document.getElementById('sh-save').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Transaction';
+  if(disp){ disp.textContent=tr('selectPerson'); disp.classList.add('placeholder'); }
+  document.getElementById('sh-title').textContent=tr('addTransaction');
+  document.getElementById('sh-save').innerHTML='<i class="fa-solid fa-floppy-disk"></i> '+tr('saveTransaction');
   const delBtn=document.getElementById('sh-del');
   if(delBtn) delBtn.style.display='none';
   setMode(mode||'inc');
   setPay('Cash');
   navTo('tx');
 }
+function catOptHTML(name){ return `<option value="${name}">${tr('cat_'+name)}</option>`; }
 function setMode(m){
   txMode=m;
   document.getElementById('tt-inc').classList.toggle('on',m==='inc');
   document.getElementById('tt-exp').classList.toggle('on',m==='exp');
   const sel=document.getElementById('tx-cat');
-  if(m==='inc') sel.innerHTML='<option>Sale</option><option>Credit Sale</option><option>Income</option><option>Borrowed</option><option>Lent Collected</option>';
-  else          sel.innerHTML='<option>Purchase</option><option>Credit purchase</option><option>Expense</option><option>Lent</option><option>Borrow Repaid</option>';
+  if(m==='inc') sel.innerHTML=['Sale','Credit Sale','Income','Borrowed','Lent Collected'].map(catOptHTML).join('');
+  else          sel.innerHTML=['Purchase','Credit purchase','Expense','Lent','Borrow Repaid'].map(catOptHTML).join('');
   updateNameField();
 }
 function updateNameField(){
@@ -1334,7 +1429,7 @@ function refreshTxView(){
   const ico=document.getElementById('txview-ico');
   ico.className='tx-ico '+(isXfer?'transfer':t.type);
   ico.innerHTML=isXfer?'⇄':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="24" height="24">${t.type==='in'?'<path d="M12 19V5M5 12l7 7 7-7"/>':'<path d="M12 5v14M5 12l7-7 7 7"/>'}</svg>`;
-  document.getElementById('txview-cat').textContent=t.category;
+  document.getElementById('txview-cat').textContent=isXfer?tr('transferName'):tr('cat_'+t.category);
   const amtEl=document.getElementById('txview-amt');
   amtEl.textContent=(isXfer?'':(t.type==='in'?'+':'-'))+INR(t.amount);
   amtEl.className='pd-bal-amt '+(isXfer?'z':(t.type==='in'?'g':'r'));
@@ -1361,10 +1456,10 @@ function editTx(id){
   const disp=document.getElementById('name-display');
   if(disp){
     if(t.name){ disp.textContent=t.name; disp.classList.remove('placeholder'); }
-    else{ disp.textContent='Select person…'; disp.classList.add('placeholder'); }
+    else{ disp.textContent=tr('selectPerson'); disp.classList.add('placeholder'); }
   }
-  document.getElementById('sh-title').textContent='Edit Transaction';
-  document.getElementById('sh-save').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Update';
+  document.getElementById('sh-title').textContent=tr('editTransaction');
+  document.getElementById('sh-save').innerHTML='<i class="fa-solid fa-floppy-disk"></i> '+tr('updateTransaction');
   document.getElementById('sh-del').style.display='block';
   document.getElementById('sh-del').dataset.delId=id;
   setMode(t.type==='in'?'inc':'exp');
@@ -1454,7 +1549,7 @@ function renderPersonsList(){
     const meta=[p.phone,p.location].filter(Boolean).join(' · ');
     const out=personOutstanding(n);
     const balCls=out>0.005?'g':out<-0.005?'r':'z';
-    const balLbl=out>0.005?'Receivable':out<-0.005?'Payable':'Settled';
+    const balLbl=out>0.005?tr('receivable'):out<-0.005?tr('payable'):tr('settled').replace('✔ ','');
     return `<div class="ccard" style="animation-delay:${i*.04}s" data-name="${esc(n)}">
       <div class="avatar av-r">${inits(n)}</div>
       <div class="c-info"><div class="c-name">${esc(n)}</div><div class="c-sub">${esc(meta||'No contact info')}</div></div>
@@ -1484,9 +1579,9 @@ function refreshPersonDetail(){
   document.getElementById('pd-edit-mode').style.display='none';
   const out=personOutstanding(name);
   const cls=out>0.005?'g':out<-0.005?'r':'z';
-  const statusLbl=out>0.005?'Receivable':out<-0.005?'Payable':'✔ Settled';
+  const statusLbl=out>0.005?tr('receivable'):out<-0.005?tr('payable'):tr('settled');
   document.getElementById('pd-bal-card').innerHTML=`
-    <div class="pd-bal-lbl"><i class="fa-solid fa-scale-balanced"></i> Outstanding Balance</div>
+    <div class="pd-bal-lbl"><i class="fa-solid fa-scale-balanced"></i> ${tr('outstandingBalance')}</div>
     <div class="pd-bal-amt ${cls}">${INR(Math.abs(out))}</div>
     <span class="pd-bal-status ${cls}">${statusLbl}</span>`;
   pdShowAllTx=false;
@@ -1567,7 +1662,7 @@ function renderCredit(){
   c.innerHTML=entries.map(([name,net],i)=>`
     <div class="ccard" style="animation-delay:${i*.04}s" data-name="${esc(name)}">
       <div class="avatar ${creditTab==='recv'?'av-r':'av-p'}">${inits(name)}</div>
-      <div class="c-info"><div class="c-name">${esc(name)}</div><div class="c-sub">${creditTab==='recv'?'Owes you':'You owe'}</div></div>
+      <div class="c-info"><div class="c-name">${esc(name)}</div><div class="c-sub">${creditTab==='recv'?tr('owesYou'):tr('youOwe')}</div></div>
       <div class="c-amt ${creditTab==='recv'?'r':'p'}">${INR(Math.abs(net))}</div>
       <div class="chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>`).join('');
