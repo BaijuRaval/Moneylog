@@ -1388,14 +1388,28 @@ function saveTx(){
 }
 
 /* ── ALL TRANSACTIONS ──────────────────────────── */
+function txSearchText(t){
+  const parts=[
+    t.category, tr('cat_'+t.category),
+    t.name||'', t.desc||'',
+    t.payment||'', t.payment==='Cash'?tr('cash'):t.payment==='Bank'?tr('bank'):'',
+    t.amount, INR(t.amount),
+    t.type==='in'?'in income money in credit received':'out expense money out debit paid',
+    isCreditCat(t.category)?'credit':'',
+    t.category==='Transfer'?`transfer ${t.from||''} ${t.to||''}`:'',
+    fd(t.date), t.date,
+    t.dueDate?fd(t.dueDate):'', t.dueDate||''
+  ];
+  return parts.join(' ').toLowerCase();
+}
 function renderAllTx(){
-  const q=(document.getElementById('alltx-search').value||'').toLowerCase();
+  const q=(document.getElementById('alltx-search').value||'').toLowerCase().trim();
   const from=document.getElementById('alltx-from').value;
   const to=document.getElementById('alltx-to').value;
   let list=runBals().filter(t=>{
     if(from&&t.date<from)return false;
     if(to&&t.date>to)return false;
-    if(q&&![t.category,t.name||'',t.desc||'',t.payment].join(' ').toLowerCase().includes(q))return false;
+    if(q&&!txSearchText(t).includes(q))return false;
     return true;
   }).reverse();
   const c=document.getElementById('alltx-list');
@@ -1408,14 +1422,14 @@ function renderAllTx(){
 
 /* ── CASHBOOK ──────────────────────────────────── */
 function renderCashbook(){
-  const q=(document.getElementById('cb-search').value||'').toLowerCase();
+  const q=(document.getElementById('cb-search').value||'').toLowerCase().trim();
   const from=document.getElementById('cb-from').value;
   const to=document.getElementById('cb-to').value;
   let list=runBals().filter(t=>{
     if(isCreditCat(t.category))return false;
     if(from&&t.date<from)return false;
     if(to&&t.date>to)return false;
-    if(q&&![t.category,t.name||'',t.desc||'',t.payment].join(' ').toLowerCase().includes(q))return false;
+    if(q&&!txSearchText(t).includes(q))return false;
     return true;
   }).reverse();
   const c=document.getElementById('cb-list');
