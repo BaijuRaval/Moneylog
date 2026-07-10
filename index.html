@@ -131,9 +131,14 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 .ob-help{font-size:.78rem;color:var(--t2);text-align:center;line-height:1.6;margin-bottom:24px}
 .ob-tip{font-size:.78rem;color:var(--t2);background:rgba(176,92,255,.1);border:1px solid rgba(176,92,255,.2);border-radius:var(--r-md);padding:11px 13px;margin-bottom:20px;line-height:1.5}
 .hero-greet{font-size:.78rem;color:var(--t2);margin-bottom:3px}
-.dash-date-pill{position:relative;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:700;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:7px 14px;margin-bottom:10px;transition:transform .15s var(--ease-sp),background .15s}
+.dash-date-pill{position:relative;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:700;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:7px 14px;transition:transform .15s var(--ease-sp),background .15s}
 .dash-date-pill:active{transform:scale(.96);background:rgba(255,255,255,.16)}
 .dash-date-pill i{font-size:.8rem;opacity:.85}
+.dash-date-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.dash-date-arrow{width:30px;height:30px;flex-shrink:0;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:#fff;transition:transform .15s var(--ease-sp),background .15s,opacity .15s}
+.dash-date-arrow svg{width:14px;height:14px;stroke:currentColor}
+.dash-date-arrow:active{transform:scale(.88);background:rgba(255,255,255,.16)}
+.dash-date-arrow:disabled{opacity:.3;pointer-events:none}
 .hero-lbl{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#C9BBFA;margin-bottom:6px}
 .hero-total{font-size:2.55rem;font-weight:800;letter-spacing:-.05em;background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:20px;transition:opacity .3s}
 .hero-row{display:flex;gap:10px}
@@ -451,6 +456,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
       <div class="ob-title">Welcome to MoneyLog</div>
       <div class="ob-sub">Let's set up your opening balance.</div>
       <div class="ob-help">This is a one-time setup. Your opening balance becomes the starting point for all future transactions.</div>
+      <div class="flg"><input class="fl" type="date" id="ob-date" placeholder=" "><label class="fll"><i class="fa-solid fa-calendar-days"></i> Opening Date</label></div>
       <div class="flg"><input class="fl" type="number" id="ob-cash" placeholder=" " min="0"><label class="fll"><i class="fa-solid fa-money-bill-wave"></i> Opening Cash Balance (₹)</label></div>
       <div class="flg"><input class="fl" type="number" id="ob-bank" placeholder=" " min="0"><label class="fll"><i class="fa-solid fa-building-columns"></i> Opening Bank Balance (₹)</label></div>
       <div class="ob-tip">💡 You can enter 0 if you don't have any opening balance.</div>
@@ -472,9 +478,13 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
     </button>
   </header>
   <div class="hero">
-    <div class="dash-date-pill" id="dash-date"><i class="fa-solid fa-calendar-days"></i> <span id="dash-date-txt"></span><input type="date" id="dash-date-input" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none"></div>
-    <div class="hero-lbl" data-i18n="totalBalance">Total Balance</div>
-    <div class="hero-total" id="h-total">₹0</div>
+    <div class="dash-date-row">
+      <button class="dash-date-arrow" id="dash-date-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="dash-date-pill" id="dash-date"><i class="fa-solid fa-calendar-days"></i> <span id="dash-date-txt"></span><input type="date" id="dash-date-input" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none"></div>
+      <button class="dash-date-arrow" id="dash-date-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div class="hero-lbl" data-i18n="totalBalance" style="text-align:center">Total Balance</div>
+    <div class="hero-total" id="h-total" style="text-align:center">₹0</div>
     <div class="hero-row">
       <div class="hero-mini"><div class="ml"><i class="fa-solid fa-money-bill-wave"></i> <span data-i18n="inHand">In Hand</span></div><div class="mv" id="h-cash">₹0</div></div>
       <div class="hero-mini"><div class="ml"><i class="fa-solid fa-building-columns"></i> <span data-i18n="inBank">In Bank</span></div><div class="mv" id="h-bank">₹0</div></div>
@@ -1010,7 +1020,12 @@ function boot(){
   try{ CFG={cash:0,bank:0,configured:false,...JSON.parse(localStorage.getItem(KCFG))}; }catch{}
   bindAll();
   applyI18n();
-  if(!CFG.configured){ document.querySelector('.bnav').style.display='none'; navTo('obsetup'); }
+  if(!CFG.configured){
+    document.querySelector('.bnav').style.display='none';
+    const od=document.getElementById('ob-date');
+    od.value=today(); od.max=today();
+    navTo('obsetup');
+  }
   else{ document.querySelector('.bnav').style.display=''; navTo('home'); }
 }
 
@@ -1078,12 +1093,20 @@ function bindAll(){
   document.getElementById('dash-date').addEventListener('click',()=>{
     const inp=document.getElementById('dash-date-input');
     inp.value=dashDate;
+    inp.min=CFG.openingDate||'';
+    inp.max=today();
     if(inp.showPicker){ try{ inp.showPicker(); }catch{ inp.click(); } } else inp.click();
   });
   document.getElementById('dash-date-input').addEventListener('change',e=>{
-    dashDate=e.target.value||today();
+    let v=e.target.value||today();
+    const minD=CFG.openingDate||v;
+    if(v<minD) v=minD;
+    if(v>today()) v=today();
+    dashDate=v;
     renderHome();
   });
+  document.getElementById('dash-date-prev').addEventListener('click',()=>shiftDashDate(-1));
+  document.getElementById('dash-date-next').addEventListener('click',()=>shiftDashDate(1));
   document.getElementById('notif-back').addEventListener('click',navBack);
   document.getElementById('txview-back').addEventListener('click',navBack);
   document.getElementById('txview-edit').addEventListener('click',()=>editTx(txViewId));
@@ -1149,7 +1172,7 @@ function bindAll(){
   document.getElementById('s-restore').addEventListener('click',()=>document.getElementById('restore-file').click());
   document.getElementById('restore-file').addEventListener('change',restore);
   document.getElementById('s-csv').addEventListener('click',exportCSV);
-  document.getElementById('s-reset').addEventListener('click',()=>openModal('<i class="fa-solid fa-triangle-exclamation"></i>','Reset All Data?','Every transaction will be permanently deleted.',()=>{ TX=[]; CFG={cash:0,bank:0,configured:false}; savePersons({}); save(); toast('<i class="fa-solid fa-trash-can"></i> All data cleared'); document.querySelector('.bnav').style.display='none'; navTo('obsetup'); }));
+  document.getElementById('s-reset').addEventListener('click',()=>openModal('<i class="fa-solid fa-triangle-exclamation"></i>','Reset All Data?','Every transaction will be permanently deleted.',()=>{ TX=[]; CFG={cash:0,bank:0,configured:false}; savePersons({}); save(); toast('<i class="fa-solid fa-trash-can"></i> All data cleared'); document.querySelector('.bnav').style.display='none'; const od=document.getElementById('ob-date'); od.value=today(); od.max=today(); navTo('obsetup'); }));
   /* modal */
   document.getElementById('m-cancel').addEventListener('click',closeModal);
   /* keyboard */
@@ -1298,6 +1321,14 @@ function dueTodayList(){
   const cats=['Credit Sale','Credit purchase','Borrowed','Lent'];
   return TX.filter(x=>x.dueDate===t&&cats.includes(x.category));
 }
+function addDays(d,n){ const dt=new Date(d+'T00:00:00'); dt.setDate(dt.getDate()+n); return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'); }
+function shiftDashDate(n){
+  const nd=addDays(dashDate,n);
+  const minD=CFG.openingDate||nd;
+  if(nd<minD||nd>today()) return;
+  dashDate=nd;
+  renderHome();
+}
 function renderHome(){
   const{cash,bank}=computeState(TX.filter(x=>x.date<=dashDate),CFG);
   setEl('h-cash',cash); setEl('h-bank',bank); setEl('h-total',cash+bank);
@@ -1305,6 +1336,8 @@ function renderHome(){
   TX.forEach(x=>{ if(x.date!==t||isCreditCat(x.category)||x.category==='Transfer')return; if(x.type==='in')tin+=x.amount; else tout+=x.amount; });
   setEl('h-tin',tin); setEl('h-tout',tout);
   document.getElementById('dash-date-txt').textContent=fmtLongDate(dashDate);
+  document.getElementById('dash-date-prev').disabled=!!(CFG.openingDate&&dashDate<=CFG.openingDate);
+  document.getElementById('dash-date-next').disabled=dashDate>=today();
   document.getElementById('notif-dot').style.display=dueTodayList().length?'block':'none';
   const recent=[...TX].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,5);
   const el=document.getElementById('dash-recent');
@@ -1321,6 +1354,8 @@ function openSheet(mode){
   // always reset form on fresh open
   document.getElementById('tx-eid').value='';
   document.getElementById('tx-date').value=today();
+  document.getElementById('tx-date').min=CFG.openingDate||'';
+  document.getElementById('tx-date').max=today();
   document.getElementById('tx-amt').value='';
   document.getElementById('tx-desc').value='';
   document.getElementById('tx-duedate').value='';
@@ -1371,6 +1406,8 @@ function saveTx(){
   const pay=document.getElementById('tx-pay').value;
   const eid=document.getElementById('tx-eid').value;
   if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Select a date'); return; }
+  if(date>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be in the future'); return; }
+  if(CFG.openingDate&&date<CFG.openingDate){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be before opening date ('+fd(CFG.openingDate)+')'); return; }
   if(isNaN(amt)||amt<=0){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Enter a valid amount'); return; }
   if(!['Sale','Purchase','Expense','Income'].includes(cat)&&!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Person/Business name required for '+cat); return; }
   const type=txMode==='inc'?'in':'out';
@@ -1470,6 +1507,8 @@ function editTx(id){
   if(t.category==='Transfer'){ editTransfer(id); return; }
   document.getElementById('tx-eid').value=t.id;
   document.getElementById('tx-date').value=t.date;
+  document.getElementById('tx-date').min=CFG.openingDate||'';
+  document.getElementById('tx-date').max=today();
   document.getElementById('tx-amt').value=t.amount;
   document.getElementById('tx-desc').value=t.desc||'';
   document.getElementById('tx-name').value=t.name||'';
@@ -1507,6 +1546,8 @@ function openTransferSheet(){
   if(!CFG.configured) return;
   document.getElementById('txf-eid').value='';
   document.getElementById('txf-date').value=today();
+  document.getElementById('txf-date').min=CFG.openingDate||'';
+  document.getElementById('txf-date').max=today();
   document.getElementById('txf-amt').value='';
   document.getElementById('txf-desc').value='';
   document.getElementById('txf-title').innerHTML='Transfer';
@@ -1519,6 +1560,8 @@ function editTransfer(id){
   const t=TX.find(x=>x.id===id); if(!t)return;
   document.getElementById('txf-eid').value=t.id;
   document.getElementById('txf-date').value=t.date;
+  document.getElementById('txf-date').min=CFG.openingDate||'';
+  document.getElementById('txf-date').max=today();
   document.getElementById('txf-amt').value=t.amount;
   document.getElementById('txf-desc').value=t.desc||'';
   document.getElementById('txf-title').innerHTML='Edit Transfer';
@@ -1534,6 +1577,8 @@ function saveTransfer(){
   const eid=document.getElementById('txf-eid').value;
   const from=txfFrom, to=from==='Cash'?'Bank':'Cash';
   if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Select a date'); return; }
+  if(date>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be in the future'); return; }
+  if(CFG.openingDate&&date<CFG.openingDate){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be before opening date ('+fd(CFG.openingDate)+')'); return; }
   if(isNaN(amt)||amt<=0){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Enter a valid amount'); return; }
   const clone=[...TX];
   if(eid){
@@ -1772,8 +1817,11 @@ function renderReports(){
 /* ── SETTINGS ──────────────────────────────────── */
 function initSettings(){}
 function saveOpeningBalance(){
+  const od=document.getElementById('ob-date').value||today();
+  if(od>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Opening date cannot be in the future'); return; }
   CFG.cash=parseFloat(document.getElementById('ob-cash').value)||0;
   CFG.bank=parseFloat(document.getElementById('ob-bank').value)||0;
+  CFG.openingDate=od;
   CFG.configured=true;
   save();
   document.querySelector('.bnav').style.display='';
