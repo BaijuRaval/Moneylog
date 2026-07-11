@@ -43,7 +43,10 @@
 
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{font-size:16px}
+html{font-size:16.75px}
+html.lang-gu{font-size:18.25px}
+html.lang-gu body{font-family:"Noto Sans Gujarati","Shruti","SF Pro Display","Segoe UI",system-ui,sans-serif;letter-spacing:0}
+html.lang-gu .chip-lbl,html.lang-gu .si-sub,html.lang-gu .tag,html.lang-gu .hdr2-sub,html.lang-gu .c-sub,html.lang-gu .pd-field-lbl,html.lang-gu .empty-s{font-size:1.05em;line-height:1.5}
 body{font-family:"SF Pro Display","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--t1);min-height:100dvh;overflow-x:hidden;overscroll-behavior:none;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
 button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none;color:inherit}
 input,select{font-family:inherit;border:none;outline:none;color:inherit;background:none}
@@ -79,6 +82,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 .hdr-logo{width:34px;height:34px;border-radius:12px;background:var(--g-brand);display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 4px 16px rgba(108,77,255,.45)}
 .hdr-name{font-size:1.05rem;font-weight:800;letter-spacing:-.03em;background:var(--g-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .notif-btn{position:relative;margin-left:auto;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s var(--ease-sp)}
+.notif-btn.has-due{animation:notifBgBlink 1.1s ease-in-out infinite}
+@keyframes notifBgBlink{0%,100%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}50%{background:rgba(255,107,129,.35);border-color:rgba(255,107,129,.55)}}
 .notif-btn:active{transform:scale(.88)}
 .notif-btn svg{width:17px;height:17px;stroke:#fff}
 .notif-dot{position:absolute;top:7px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid #1D1046}
@@ -603,8 +608,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   </header>
   <div class="scr-body">
   <div class="tabs">
-    <div class="tab on" id="tab-recv"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg>Receivable</div>
-    <div class="tab" id="tab-pay"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg>Payable</div>
+    <div class="tab on" id="tab-recv"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg><span data-i18n="receivable">Receivable</span></div>
+    <div class="tab" id="tab-pay"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg><span data-i18n="payable">Payable</span></div>
   </div>
   <div class="clist" id="credit-list"></div>
   </div>
@@ -839,7 +844,7 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
   <div class="ni on" data-nav="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span data-i18n="navHome">Home</span></div>
   <div class="ni" data-nav="cashbook"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span data-i18n="navCashbook">Cashbook</span></div>
   <div class="ni" data-nav="credit"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="navCredit">Credit</span></div>
-  <div class="ni" data-nav="reports"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span data-i18n="navReports">Reports</span></div>
+  <div class="ni" data-nav="persons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="personsName">Persons</span></div>
   <div class="ni" data-nav="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span data-i18n="navSettings">Settings</span></div>
 </nav>
 
@@ -966,11 +971,11 @@ const I18N={
     cat_Borrowed:'Borrowed', 'cat_Lent Collected':'Lent Collected', 'cat_Borrow Repaid':'Borrow Repaid'
   },
   gu:{
-    navHome:'હોમ', navCashbook:'કેશબુક', navCredit:'ક્રેડિટ', navReports:'રિપોર્ટ્સ', navSettings:'સેટિંગ્સ',
+    navHome:'હોમ', navCashbook:'કેશબુક', navCredit:'ઉધાર', navReports:'રિપોર્ટ્સ', navSettings:'સેટિંગ્સ',
     totalBalance:'કુલ બેલેન્સ', inHand:'હાથમાં રોકડ', inBank:'બેંકમાં', todayIn:'આવક', todayOut:'ખર્ચ',
     quickActions:'ઝડપી ક્રિયાઓ', recordIncome:'આવક નોંધો', recordExpense:'ખર્ચ નોંધો',
     moneyIn:'પૈસા આવક', moneyOut:'પૈસા ખર્ચ', transferName:'ટ્રાન્સફર', cashBankArrow:'રોકડ ⇄ બેંક',
-    allTransactionsSub:'બધા વ્યવહારો', creditBookName:'ક્રેડિટ બુક', duesLoans:'લેણું અને ધીરાણ',
+    allTransactionsSub:'બધા વ્યવહારો', creditBookName:'ઉધાર બુક', duesLoans:'લેણું અને ધીરાણ',
     personsName:'વ્યક્તિઓ', manageContacts:'સંપર્કો સંભાળો', chartsSummaries:'ચાર્ટ્સ અને સારાંશ',
     recent:'તાજેતરના', seeAll:'બધા જુઓ →',
     allTransactions:'બધા વ્યવહારો', completeHistory:'સંપૂર્ણ ઇતિહાસ',
@@ -988,8 +993,8 @@ const I18N={
     selectPerson:'વ્યક્તિ પસંદ કરો…', receivable:'લેણું', payable:'દેવું', settled:'✔ પતાવેલું',
     outstandingBalance:'બાકી રકમ', owesYou:'તમને લેણું', youOwe:'તમારે દેવું',
     cat_Sale:'વેચાણ', cat_Purchase:'ખરીદી', cat_Income:'આવક', cat_Expense:'ખર્ચ',
-    cat_Lent:'ધીરેલું', 'cat_Credit Sale':'ક્રેડિટ વેચાણ', 'cat_Credit purchase':'ક્રેડિટ ખરીદી',
-    cat_Borrowed:'ઉધાર લીધેલું', 'cat_Lent Collected':'ધીરેલું વસૂલ્યું', 'cat_Borrow Repaid':'ઉધાર ચૂકવ્યું'
+    cat_Lent:'ઉધાર દીધું', 'cat_Credit Sale':'ઉધાર વેચાણ', 'cat_Credit purchase':'ઉધાર ખરીદી',
+    cat_Borrowed:'ઉધાર લીધેલું', 'cat_Lent Collected':'ઉધાર વસુલ્યું', 'cat_Borrow Repaid':'ઉધાર ચૂકવ્યું'
   }
 };
 let curLang=localStorage.getItem(KLANG)||'en';
@@ -998,6 +1003,8 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=tr(el.dataset.i18n); });
   document.getElementById('lang-en').classList.toggle('on',curLang==='en');
   document.getElementById('lang-gu').classList.toggle('on',curLang==='gu');
+  document.documentElement.classList.toggle('lang-gu',curLang==='gu');
+  document.documentElement.lang=curLang;
 }
 function setLang(l){
   curLang=l;
@@ -1235,9 +1242,24 @@ function notifCardHTML(t,i){
 function renderNotifications(){
   const list=dueTodayList();
   const c=document.getElementById('notif-list');
+  if(!list.length){
+    c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-bell-slash"></i></div><div class="empty-t">No notifications</div><div class="empty-s">You\'ll see dues that are due today here</div></div>';
+    return;
+  }
   c.innerHTML=list.map((t,i)=>notifCardHTML(t,i)).join('');
 }
 function isCreditCat(cat){ return cat==='Credit Sale'||cat==='Credit purchase'; }
+function waReminderMsg(name,amt,kind){
+  // kind: 'due' (they owe us), 'owe' (we owe them), 'checkin'
+  if(curLang==='gu'){
+    if(kind==='due')  return `નમસ્તે ${name}, ${INR(amt)} બાકી છે તેની યાદ અપાવીએ છીએ. કૃપા કરી વહેલી તકે ચૂકવણી કરો. આભાર!`;
+    if(kind==='owe')  return `નમસ્તે ${name}, ${INR(amt)} અમારે તમને ચૂકવવાના બાકી છે, જલ્દી ચૂકવી દેસુ.`;
+    return `નમસ્તે ${name}, ખાલી ખબર-અંતર પૂછું છું!`;
+  }
+  if(kind==='due')  return `Hi ${name}, a friendly reminder that ${INR(amt)} is due. Please pay at your earliest convenience. Thank you!`;
+  if(kind==='owe')  return `Hi ${name}, just confirming ${INR(amt)} is pending from us and will be settled soon.`;
+  return `Hi ${name}, just checking in!`;
+}
 /* SINGLE SOURCE OF TRUTH for transaction card markup — used by All Transactions,
    Cashbook, Person Details, and Credit Detail so every screen renders identically. */
 function txCardHTML(t,i){
@@ -1338,7 +1360,9 @@ function renderHome(){
   document.getElementById('dash-date-txt').textContent=fmtLongDate(dashDate);
   document.getElementById('dash-date-prev').disabled=!!(CFG.openingDate&&dashDate<=CFG.openingDate);
   document.getElementById('dash-date-next').disabled=dashDate>=today();
-  document.getElementById('notif-dot').style.display=dueTodayList().length?'block':'none';
+  const hasDue=dueTodayList().length>0;
+  document.getElementById('notif-dot').style.display=hasDue?'block':'none';
+  document.getElementById('notif-btn').classList.toggle('has-due',hasDue);
   const recent=[...TX].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,5);
   const el=document.getElementById('dash-recent');
   if(!recent.length){
@@ -1655,7 +1679,7 @@ function refreshPersonDetail(){
   const waBtn=document.getElementById('pd-hdr-wa');
   if(p.phone){
     const digits=p.phone.replace(/\D/g,'');
-    const msg=out>0.005?`Hi ${name}, a friendly reminder that ${INR(out)} is due. Please pay at your earliest convenience. Thank you!`:out<-0.005?`Hi ${name}, just confirming ${INR(Math.abs(out))} is pending from us and will be settled soon.`:`Hi ${name}, just checking in!`;
+    const msg=out>0.005?waReminderMsg(name,out,'due'):out<-0.005?waReminderMsg(name,Math.abs(out),'owe'):waReminderMsg(name,0,'checkin');
     callBtn.href='tel:'+digits; callBtn.style.display='flex';
     waBtn.href='https://wa.me/'+digits+'?text='+encodeURIComponent(msg); waBtn.style.display='flex';
   }else{ callBtn.style.display='none'; waBtn.style.display='none'; }
@@ -1757,7 +1781,7 @@ function openCreditDetail(name,tab){
   const fw=document.getElementById('cd-fab-wrap');
   if(phone){
     const digits=phone.replace(/\D/g,'');
-    const msg=tab==='recv'?`Hi ${name}, a friendly reminder that ${INR(out)} is due. Please pay at your earliest convenience. Thank you!`:`Hi ${name}, just confirming ${INR(out)} is pending from us and will be settled soon.`;
+    const msg=tab==='recv'?waReminderMsg(name,out,'due'):waReminderMsg(name,out,'owe');
     document.getElementById('cd-fab-call').href='tel:'+digits;
     document.getElementById('cd-fab-wa').href='https://wa.me/'+digits+'?text='+encodeURIComponent(msg);
     fw.style.display='flex';
