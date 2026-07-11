@@ -966,6 +966,12 @@ const I18N={
     addTransaction:'Add Transaction', editTransaction:'Edit Transaction', addNewPerson:'Add New Person',
     selectPerson:'Select person…', receivable:'Receivable', payable:'Payable', settled:'✔ Settled',
     outstandingBalance:'Outstanding Balance', owesYou:'Owes you', youOwe:'You owe',
+    noNotifications:'No notifications', dueTodayHere:"You'll see dues that are due today here",
+    noTransactionsYet:'No transactions yet', tapMoneyInOut:'Tap Money In or Money Out to get started',
+    nothingFound:'Nothing found', adjustSearchFilter:'Try adjusting your search or date filter',
+    allClear:'All clear!', noMoneyToReceive:'No money to receive from anyone', noMoneyToPay:'No money to pay to anyone',
+    noPersonsYet:'No persons yet', addFromPersonField:'Add one from the Person Name field',
+    transactionsWithHere:'Transactions with {name} will appear here',
     cat_Sale:'Sale', cat_Purchase:'Purchase', cat_Income:'Income', cat_Expense:'Expense',
     cat_Lent:'Lent', 'cat_Credit Sale':'Credit Sale', 'cat_Credit purchase':'Credit purchase',
     cat_Borrowed:'Borrowed', 'cat_Lent Collected':'Lent Collected', 'cat_Borrow Repaid':'Borrow Repaid'
@@ -992,6 +998,12 @@ const I18N={
     addTransaction:'વ્યવહાર ઉમેરો', editTransaction:'વ્યવહાર સંપાદિત કરો', addNewPerson:'નવી વ્યક્તિ ઉમેરો',
     selectPerson:'વ્યક્તિ પસંદ કરો…', receivable:'લેણું', payable:'દેવું', settled:'✔ પતાવેલું',
     outstandingBalance:'બાકી રકમ', owesYou:'તમને લેણું', youOwe:'તમારે દેવું',
+    noNotifications:'કોઈ સૂચના નથી', dueTodayHere:'આજે બાકી હોય તેવા વ્યવહારો અહીં દેખાશે',
+    noTransactionsYet:'હજુ સુધી કોઈ વ્યવહાર નથી', tapMoneyInOut:'શરૂ કરવા માટે પૈસા આવક અથવા પૈસા ખર્ચ પર ટેપ કરો',
+    nothingFound:'કંઈ મળ્યું નથી', adjustSearchFilter:'તમારી શોધ અથવા તારીખ ફિલ્ટર બદલીને જુઓ',
+    allClear:'બધું ચોખ્ખું છે!', noMoneyToReceive:'કોઈની પાસેથી પૈસા લેવાના બાકી નથી', noMoneyToPay:'કોઈને પૈસા ચૂકવવાના બાકી નથી',
+    noPersonsYet:'હજુ સુધી કોઈ વ્યક્તિ નથી', addFromPersonField:'વ્યક્તિનું નામ ફિલ્ડમાંથી ઉમેરો',
+    transactionsWithHere:'{name} સાથેના વ્યવહારો અહીં દેખાશે',
     cat_Sale:'વેચાણ', cat_Purchase:'ખરીદી', cat_Income:'આવક', cat_Expense:'ખર્ચ',
     cat_Lent:'ઉધાર દીધું', 'cat_Credit Sale':'ઉધાર વેચાણ', 'cat_Credit purchase':'ઉધાર ખરીદી',
     cat_Borrowed:'ઉધાર લીધેલું', 'cat_Lent Collected':'ઉધાર વસુલ્યું', 'cat_Borrow Repaid':'ઉધાર ચૂકવ્યું'
@@ -1243,7 +1255,7 @@ function renderNotifications(){
   const list=dueTodayList();
   const c=document.getElementById('notif-list');
   if(!list.length){
-    c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-bell-slash"></i></div><div class="empty-t">No notifications</div><div class="empty-s">You\'ll see dues that are due today here</div></div>';
+    c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-bell-slash"></i></div><div class="empty-t">'+tr('noNotifications')+'</div><div class="empty-s">'+tr('dueTodayHere')+'</div></div>';
     return;
   }
   c.innerHTML=list.map((t,i)=>notifCardHTML(t,i)).join('');
@@ -1366,7 +1378,7 @@ function renderHome(){
   const recent=[...TX].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,5);
   const el=document.getElementById('dash-recent');
   if(!recent.length){
-    el.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-wallet"></i></div><div class="empty-t">No transactions yet</div><div class="empty-s">Tap Money In or Money Out to get started</div></div>';
+    el.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-wallet"></i></div><div class="empty-t">'+tr('noTransactionsYet')+'</div><div class="empty-s">'+tr('tapMoneyInOut')+'</div></div>';
     return;
   }
   el.innerHTML=recent.map((t,i)=>txCardHTML(t,i)).join('');
@@ -1475,7 +1487,7 @@ function renderAllTx(){
   }).reverse();
   const c=document.getElementById('alltx-list');
   if(!list.length){
-    c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-inbox"></i></div><div class="empty-t">Nothing found</div><div class="empty-s">Try adjusting your search or date filter</div></div>';
+    c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-inbox"></i></div><div class="empty-t">'+tr('nothingFound')+'</div><div class="empty-s">'+tr('adjustSearchFilter')+'</div></div>';
     return;
   }
   c.innerHTML=list.map((t,i)=>txCardHTML(t,i)).join('');
@@ -1494,7 +1506,7 @@ function renderCashbook(){
     return true;
   }).reverse();
   const c=document.getElementById('cb-list');
-  if(!list.length){ c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-inbox"></i></div><div class="empty-t">Nothing found</div><div class="empty-s">Try adjusting your search or date filter</div></div>'; return; }
+  if(!list.length){ c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-inbox"></i></div><div class="empty-t">'+tr('nothingFound')+'</div><div class="empty-s">'+tr('adjustSearchFilter')+'</div></div>'; return; }
   c.innerHTML=list.map((t,i)=>txCardHTML(t,i)).join('');
 
 }
@@ -1632,7 +1644,7 @@ function renderPersonsList(){
   const persons=getPersons();
   const names=Array.from(new Set([...Object.keys(persons),...getUniqueNames()])).sort();
   const c=document.getElementById('plist');
-  if(!names.length){ c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-address-book"></i></div><div class="empty-t">No persons yet</div><div class="empty-s">Add one from the Person Name field</div></div>'; return; }
+  if(!names.length){ c.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-address-book"></i></div><div class="empty-t">'+tr('noPersonsYet')+'</div><div class="empty-s">'+tr('addFromPersonField')+'</div></div>'; return; }
   c.innerHTML=names.map((n,i)=>{
     const p=persons[n]||{};
     const meta=[p.phone,p.location].filter(Boolean).join(' · ');
@@ -1691,7 +1703,7 @@ function renderPdTxList(name){
   document.getElementById('pd-view-all').textContent=pdShowAllTx?'Show Less':'View All';
   document.getElementById('pd-view-all').style.display=rel.length>5?'inline':'none';
   if(!rel.length){
-    list.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-receipt"></i></div><div class="empty-t">No transactions yet</div><div class="empty-s">Transactions with '+esc(name)+' will appear here</div></div>';
+    list.innerHTML='<div class="empty"><div class="empty-ico"><i class="fa-solid fa-receipt"></i></div><div class="empty-t">'+tr('noTransactionsYet')+'</div><div class="empty-s">'+tr('transactionsWithHere').replace('{name}',esc(name))+'</div></div>';
     return;
   }
   list.innerHTML=shown.map((t,i)=>txCardHTML(t,i)).join('');
@@ -1744,8 +1756,8 @@ function renderCredit(){
   const entries=Object.entries(nets).filter(([,v])=>creditTab==='recv'?v>0.005:v<-0.005);
   const c=document.getElementById('credit-list');
   if(!entries.length){
-    const msg=creditTab==='recv'?'No money to receive from anyone':'No money to pay to anyone';
-    c.innerHTML=`<div class="empty"><div class="empty-ico">${creditTab==='recv'?'<i class="fa-solid fa-circle-check"></i>':'<i class="fa-solid fa-circle-xmark"></i>'}</div><div class="empty-t">All clear!</div><div class="empty-s">${msg}</div></div>`;
+    const msg=creditTab==='recv'?tr('noMoneyToReceive'):tr('noMoneyToPay');
+    c.innerHTML=`<div class="empty"><div class="empty-ico">${creditTab==='recv'?'<i class="fa-solid fa-circle-check"></i>':'<i class="fa-solid fa-circle-xmark"></i>'}</div><div class="empty-t">${tr('allClear')}</div><div class="empty-s">${msg}</div></div>`;
     return;
   }
   c.innerHTML=entries.map(([name,net],i)=>`
