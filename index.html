@@ -972,6 +972,20 @@ const I18N={
     allClear:'All clear!', noMoneyToReceive:'No money to receive from anyone', noMoneyToPay:'No money to pay to anyone',
     noPersonsYet:'No persons yet', addFromPersonField:'Add one from the Person Name field',
     transactionsWithHere:'Transactions with {name} will appear here',
+    msgDeleted:'Deleted', msgAllDataCleared:'All data cleared', msgSelectDate:'Select a date',
+    msgDateFuture:'Date cannot be in the future', msgDateBeforeOpening:'Date cannot be before opening date ({date})',
+    msgValidAmount:'Enter a valid amount', msgPersonRequiredFor:'Person/Business name required for {cat}',
+    msgNameRequired:'Name is required', msgPersonExists:'Person already exists', msgSaved:'Saved', msgUpdated:'Updated',
+    msgCannotDeletePending:'Cannot delete: amount pending', msgOpeningDateFuture:'Opening date cannot be in the future',
+    msgOpeningBalancesSaved:'Opening balances saved', msgBackupDownloaded:'Backup downloaded',
+    msgBackupRejected:'Backup rejected: {msg}', msgRestored:'Restored', msgInvalidBackup:'Invalid backup file',
+    msgCsvExported:'CSV exported', msgPersonNameRequired:'Person Name is required', msgPersonAdded:'Person added',
+    msgTransferUpdated:'Transfer updated', msgTransferCompleted:'Transfer completed',
+    msgInsufficientCash:'Insufficient Cash Balance.', msgInsufficientBank:'Insufficient Bank Balance.',
+    msgInvalidCreditOutstanding:'Invalid credit outstanding.', msgInvalidPayableOutstanding:'Invalid payable outstanding.',
+    modalDeleteTxTitle:'Delete Transaction', modalCannotUndo:'This cannot be undone.',
+    modalResetTitle:'Reset All Data?', modalResetMsg:'Every transaction will be permanently deleted.',
+    modalDeletePersonTitle:'Delete Person', modalDeletePersonMsg:'This will remove {name} from your contacts.',
     cat_Sale:'Sale', cat_Purchase:'Purchase', cat_Income:'Income', cat_Expense:'Expense',
     cat_Lent:'Lent', 'cat_Credit Sale':'Credit Sale', 'cat_Credit purchase':'Credit purchase',
     cat_Borrowed:'Borrowed', 'cat_Lent Collected':'Lent Collected', 'cat_Borrow Repaid':'Borrow Repaid'
@@ -1004,6 +1018,20 @@ const I18N={
     allClear:'બધું ચોખ્ખું છે!', noMoneyToReceive:'કોઈની પાસેથી પૈસા લેવાના બાકી નથી', noMoneyToPay:'કોઈને પૈસા ચૂકવવાના બાકી નથી',
     noPersonsYet:'હજુ સુધી કોઈ વ્યક્તિ નથી', addFromPersonField:'વ્યક્તિનું નામ ફિલ્ડમાંથી ઉમેરો',
     transactionsWithHere:'{name} સાથેના વ્યવહારો અહીં દેખાશે',
+    msgDeleted:'ડિલીટ થયું', msgAllDataCleared:'બધો ડેટા સાફ થયો', msgSelectDate:'તારીખ પસંદ કરો',
+    msgDateFuture:'ભવિષ્યની તારીખ પસંદ કરી શકાતી નથી', msgDateBeforeOpening:'શરૂઆતની તારીખ ({date}) પહેલાંની તારીખ પસંદ કરી શકાતી નથી',
+    msgValidAmount:'યોગ્ય રકમ દાખલ કરો', msgPersonRequiredFor:'{cat} માટે વ્યક્તિ/વ્યવસાયનું નામ જરૂરી છે',
+    msgNameRequired:'નામ જરૂરી છે', msgPersonExists:'વ્યક્તિ પહેલેથી અસ્તિત્વમાં છે', msgSaved:'સાચવ્યું', msgUpdated:'અપડેટ થયું',
+    msgCannotDeletePending:'ડિલીટ કરી શકાતું નથી: રકમ બાકી છે', msgOpeningDateFuture:'શરૂઆતની તારીખ ભવિષ્યની હોઈ શકે નહીં',
+    msgOpeningBalancesSaved:'શરૂઆતનું બેલેન્સ સચવાયું', msgBackupDownloaded:'બેકઅપ ડાઉનલોડ થયું',
+    msgBackupRejected:'બેકઅપ નામંજૂર: {msg}', msgRestored:'પુનઃસ્થાપિત થયું', msgInvalidBackup:'અમાન્ય બેકઅપ ફાઇલ',
+    msgCsvExported:'CSV એક્સપોર્ટ થયું', msgPersonNameRequired:'વ્યક્તિનું નામ જરૂરી છે', msgPersonAdded:'વ્યક્તિ ઉમેરાઈ',
+    msgTransferUpdated:'ટ્રાન્સફર અપડેટ થયું', msgTransferCompleted:'ટ્રાન્સફર પૂર્ણ થયું',
+    msgInsufficientCash:'અપૂરતું રોકડ બેલેન્સ.', msgInsufficientBank:'અપૂરતું બેંક બેલેન્સ.',
+    msgInvalidCreditOutstanding:'અમાન્ય લેણી બાકી રકમ.', msgInvalidPayableOutstanding:'અમાન્ય દેવાની બાકી રકમ.',
+    modalDeleteTxTitle:'વ્યવહાર ડિલીટ કરો', modalCannotUndo:'આ પાછું લઈ શકાશે નહીં.',
+    modalResetTitle:'બધો ડેટા રીસેટ કરવો છે?', modalResetMsg:'બધા વ્યવહારો કાયમ માટે ડિલીટ થઈ જશે.',
+    modalDeletePersonTitle:'વ્યક્તિ ડિલીટ કરો', modalDeletePersonMsg:'આનાથી {name} તમારા સંપર્કોમાંથી દૂર થઈ જશે.',
     cat_Sale:'વેચાણ', cat_Purchase:'ખરીદી', cat_Income:'આવક', cat_Expense:'ખર્ચ',
     cat_Lent:'ઉધાર દીધું', 'cat_Credit Sale':'ઉધાર વેચાણ', 'cat_Credit purchase':'ઉધાર ખરીદી',
     cat_Borrowed:'ઉધાર લીધેલું', 'cat_Lent Collected':'ઉધાર વસુલ્યું', 'cat_Borrow Repaid':'ઉધાર ચૂકવ્યું'
@@ -1130,10 +1158,10 @@ function bindAll(){
   document.getElementById('txview-back').addEventListener('click',navBack);
   document.getElementById('txview-edit').addEventListener('click',()=>editTx(txViewId));
   document.getElementById('txview-delete').addEventListener('click',()=>{
-    openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
+    openModal('<i class="fa-solid fa-trash-can"></i>',tr('modalDeleteTxTitle'),tr('modalCannotUndo'),()=>{
       const clone=TX.filter(t=>t.id!==txViewId);
       if(!commitState(clone)) return; // validation failed → TX untouched
-      toast('<i class="fa-solid fa-trash-can"></i> Deleted');
+      toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgDeleted'));
       navBack();
     });
   });
@@ -1141,10 +1169,10 @@ function bindAll(){
   document.getElementById('sh-del').addEventListener('click',()=>{
     const id=document.getElementById('sh-del').dataset.delId;
     if(!id) return;
-    openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
+    openModal('<i class="fa-solid fa-trash-can"></i>',tr('modalDeleteTxTitle'),tr('modalCannotUndo'),()=>{
       const clone=TX.filter(t=>t.id!==id);
       if(!commitState(clone)) return; // validation failed → TX untouched
-      toast('<i class="fa-solid fa-trash-can"></i> Deleted');
+      toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgDeleted'));
       navBack();
     });
   });
@@ -1191,7 +1219,7 @@ function bindAll(){
   document.getElementById('s-restore').addEventListener('click',()=>document.getElementById('restore-file').click());
   document.getElementById('restore-file').addEventListener('change',restore);
   document.getElementById('s-csv').addEventListener('click',exportCSV);
-  document.getElementById('s-reset').addEventListener('click',()=>openModal('<i class="fa-solid fa-triangle-exclamation"></i>','Reset All Data?','Every transaction will be permanently deleted.',()=>{ TX=[]; CFG={cash:0,bank:0,configured:false}; savePersons({}); save(); toast('<i class="fa-solid fa-trash-can"></i> All data cleared'); document.querySelector('.bnav').style.display='none'; const od=document.getElementById('ob-date'); od.value=today(); od.max=today(); navTo('obsetup'); }));
+  document.getElementById('s-reset').addEventListener('click',()=>openModal('<i class="fa-solid fa-triangle-exclamation"></i>',tr('modalResetTitle'),tr('modalResetMsg'),()=>{ TX=[]; CFG={cash:0,bank:0,configured:false}; savePersons({}); save(); toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgAllDataCleared')); document.querySelector('.bnav').style.display='none'; const od=document.getElementById('ob-date'); od.value=today(); od.max=today(); navTo('obsetup'); }));
   /* modal */
   document.getElementById('m-cancel').addEventListener('click',closeModal);
   /* keyboard */
@@ -1324,10 +1352,10 @@ function computeState(txList,cfg){
 }
 /* Validates a computed state against integrity rules. */
 function validateState(st){
-  if(st.cash<-0.005) return{ok:false,msg:'Insufficient Cash Balance.'};
-  if(st.bank<-0.005) return{ok:false,msg:'Insufficient Bank Balance.'};
-  for(const n in st.recv){ if(st.recv[n]<-0.005) return{ok:false,msg:'Invalid credit outstanding.'}; }
-  for(const n in st.pay){ if(st.pay[n]<-0.005) return{ok:false,msg:'Invalid payable outstanding.'}; }
+  if(st.cash<-0.005) return{ok:false,msg:tr('msgInsufficientCash')};
+  if(st.bank<-0.005) return{ok:false,msg:tr('msgInsufficientBank')};
+  for(const n in st.recv){ if(st.recv[n]<-0.005) return{ok:false,msg:tr('msgInvalidCreditOutstanding')}; }
+  for(const n in st.pay){ if(st.pay[n]<-0.005) return{ok:false,msg:tr('msgInvalidPayableOutstanding')}; }
   return{ok:true};
 }
 /* Atomic commit: clone → apply → recompute → validate → commit or discard.
@@ -1441,11 +1469,11 @@ function saveTx(){
   const dueDate=document.getElementById('tx-duedate').value||'';
   const pay=document.getElementById('tx-pay').value;
   const eid=document.getElementById('tx-eid').value;
-  if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Select a date'); return; }
-  if(date>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be in the future'); return; }
-  if(CFG.openingDate&&date<CFG.openingDate){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be before opening date ('+fd(CFG.openingDate)+')'); return; }
-  if(isNaN(amt)||amt<=0){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Enter a valid amount'); return; }
-  if(!['Sale','Purchase','Expense','Income'].includes(cat)&&!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Person/Business name required for '+cat); return; }
+  if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgSelectDate')); return; }
+  if(date>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgDateFuture')); return; }
+  if(CFG.openingDate&&date<CFG.openingDate){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgDateBeforeOpening').replace('{date}',fd(CFG.openingDate))); return; }
+  if(isNaN(amt)||amt<=0){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgValidAmount')); return; }
+  if(!['Sale','Purchase','Expense','Income'].includes(cat)&&!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgPersonRequiredFor').replace('{cat}',tr('cat_'+cat))); return; }
   const type=txMode==='inc'?'in':'out';
   // clone → apply requested operation to the clone (never touch TX directly pre-validation)
   const clone=[...TX];
@@ -1456,7 +1484,7 @@ function saveTx(){
     clone.unshift({id:uid(),type,date,category:cat,name,amount:amt,desc,payment:pay,dueDate});
   }
   if(!commitState(clone)) return; // validation failed → clone discarded, TX untouched
-  toast(eid?'<i class="fa-solid fa-check"></i> Updated':'<i class="fa-solid fa-check"></i> Saved');
+  toast(eid?'<i class="fa-solid fa-check"></i> '+tr('msgUpdated'):'<i class="fa-solid fa-check"></i> '+tr('msgSaved'));
   navBack();
 }
 
@@ -1564,10 +1592,10 @@ function editTx(id){
   navTo('tx');
 }
 function deleteTx(id){
-  openModal('<i class="fa-solid fa-trash-can"></i>','Delete Transaction','This cannot be undone.',()=>{
+  openModal('<i class="fa-solid fa-trash-can"></i>',tr('modalDeleteTxTitle'),tr('modalCannotUndo'),()=>{
     const clone=TX.filter(t=>t.id!==id);
     if(!commitState(clone)) return; // validation failed → TX untouched
-    renderCashbook(); toast('<i class="fa-solid fa-trash-can"></i> Deleted');
+    renderCashbook(); toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgDeleted'));
   });
 }
 
@@ -1612,10 +1640,10 @@ function saveTransfer(){
   const desc=document.getElementById('txf-desc').value.trim();
   const eid=document.getElementById('txf-eid').value;
   const from=txfFrom, to=from==='Cash'?'Bank':'Cash';
-  if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Select a date'); return; }
-  if(date>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be in the future'); return; }
-  if(CFG.openingDate&&date<CFG.openingDate){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Date cannot be before opening date ('+fd(CFG.openingDate)+')'); return; }
-  if(isNaN(amt)||amt<=0){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Enter a valid amount'); return; }
+  if(!date){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgSelectDate')); return; }
+  if(date>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgDateFuture')); return; }
+  if(CFG.openingDate&&date<CFG.openingDate){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgDateBeforeOpening').replace('{date}',fd(CFG.openingDate))); return; }
+  if(isNaN(amt)||amt<=0){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgValidAmount')); return; }
   const clone=[...TX];
   if(eid){
     const i=clone.findIndex(t=>t.id===eid);
@@ -1624,7 +1652,7 @@ function saveTransfer(){
     clone.unshift({id:uid(),type:'transfer',category:'Transfer',date,from,to,amount:amt,desc});
   }
   if(!commitState(clone)) return; // insufficient balance → clone discarded, TX untouched
-  toast(eid?'<i class="fa-solid fa-check"></i> Transfer updated':'<i class="fa-solid fa-check"></i> Transfer completed');
+  toast(eid?'<i class="fa-solid fa-check"></i> '+tr('msgTransferUpdated'):'<i class="fa-solid fa-check"></i> '+tr('msgTransferCompleted'));
   navTo('home');
 }
 
@@ -1722,11 +1750,11 @@ function togglePdEditMode(show){
 function savePersonDetail(){
   const orig=document.getElementById('pd-orig-name').value;
   const name=document.getElementById('pd-name').value.trim();
-  if(!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Name is required'); return; }
+  if(!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgNameRequired')); return; }
   const phone=document.getElementById('pd-phone').value.trim();
   const location=document.getElementById('pd-location').value.trim();
   const persons=getPersons();
-  if(name!==orig&&persons[name]){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Person already exists'); return; }
+  if(name!==orig&&persons[name]){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgPersonExists')); return; }
   if(name!==orig){
     persons[name]=persons[orig];
     delete persons[orig];
@@ -1735,16 +1763,16 @@ function savePersonDetail(){
   }
   persons[name]={...persons[name],phone,location};
   savePersons(persons);
-  toast('<i class="fa-solid fa-check"></i> Saved');
+  toast('<i class="fa-solid fa-check"></i> '+tr('msgSaved'));
   openPersonDetail(name);
 }
 function deletePersonDetail(){
   const name=document.getElementById('pd-orig-name').value;
   const out=personOutstanding(name);
-  if(Math.abs(out)>0.005){ toast('<i class="fa-solid fa-lock"></i> Cannot delete: amount pending'); return; }
-  openModal('<i class="fa-solid fa-trash-can"></i>','Delete Person','This will remove '+name+' from your contacts.',()=>{
+  if(Math.abs(out)>0.005){ toast('<i class="fa-solid fa-lock"></i> '+tr('msgCannotDeletePending')); return; }
+  openModal('<i class="fa-solid fa-trash-can"></i>',tr('modalDeletePersonTitle'),tr('modalDeletePersonMsg').replace('{name}',name),()=>{
     const persons=getPersons(); delete persons[name]; savePersons(persons);
-    toast('<i class="fa-solid fa-trash-can"></i> Deleted');
+    toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgDeleted'));
     renderPersonsList(); navTo('persons');
   });
 }
@@ -1854,7 +1882,7 @@ function renderReports(){
 function initSettings(){}
 function saveOpeningBalance(){
   const od=document.getElementById('ob-date').value||today();
-  if(od>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Opening date cannot be in the future'); return; }
+  if(od>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgOpeningDateFuture')); return; }
   CFG.cash=parseFloat(document.getElementById('ob-cash').value)||0;
   CFG.bank=parseFloat(document.getElementById('ob-bank').value)||0;
   CFG.openingDate=od;
@@ -1862,12 +1890,12 @@ function saveOpeningBalance(){
   save();
   document.querySelector('.bnav').style.display='';
   navTo('home');
-  toast('<i class="fa-solid fa-check"></i> Opening balances saved');
+  toast('<i class="fa-solid fa-check"></i> '+tr('msgOpeningBalancesSaved'));
 }
 function backup(){
   const b=new Blob([JSON.stringify({TX,CFG,PERSONS:getPersons()},null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='moneylog-'+today()+'.json'; a.click();
-  toast('<i class="fa-solid fa-download"></i> Backup downloaded');
+  toast('<i class="fa-solid fa-download"></i> '+tr('msgBackupDownloaded'));
 }
 function restore(e){
   const f=e.target.files[0]; if(!f)return;
@@ -1879,11 +1907,11 @@ function restore(e){
       const candCfg=d.CFG?{...CFG,...d.CFG}:CFG;
       const st=computeState(candTx,candCfg);
       const v=validateState(st);
-      if(!v.ok){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Backup rejected: '+v.msg); e.target.value=''; return; }
+      if(!v.ok){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgBackupRejected').replace('{msg}',v.msg)); e.target.value=''; return; }
       TX=candTx; CFG=candCfg;
       if(d.PERSONS)savePersons(d.PERSONS);
-      save(); toast('<i class="fa-solid fa-check"></i> Restored'); initSettings(); renderHome();
-    }catch{ toast('<i class="fa-solid fa-triangle-exclamation"></i> Invalid backup file'); }
+      save(); toast('<i class="fa-solid fa-check"></i> '+tr('msgRestored')); initSettings(); renderHome();
+    }catch{ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgInvalidBackup')); }
   };
   r.readAsText(f); e.target.value='';
 }
@@ -1892,7 +1920,7 @@ function exportCSV(){
   const rows=TX.map(t=>[t.date,t.type,t.category,t.name||'',t.amount,t.desc||'',t.payment].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const b=new Blob([h+rows],{type:'text/csv'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='moneylog-'+today()+'.csv'; a.click();
-  toast('<i class="fa-solid fa-file-csv"></i> CSV exported');
+  toast('<i class="fa-solid fa-file-csv"></i> '+tr('msgCsvExported'));
 }
 
 /* ── TOAST ─────────────────────────────────────── */
@@ -2053,9 +2081,9 @@ document.getElementById('ps-cancel').addEventListener('click',()=>{
 });
 document.getElementById('ps-save').addEventListener('click',()=>{
   const name=document.getElementById('ps-name').value.trim();
-  if(!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Person Name is required'); return; }
+  if(!name){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgPersonNameRequired')); return; }
   const persons=getPersons();
-  if(persons[name]){ toast('<i class="fa-solid fa-triangle-exclamation"></i> Person already exists'); return; }
+  if(persons[name]){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgPersonExists')); return; }
   const phone=document.getElementById('ps-phone').value.trim();
   const location=document.getElementById('ps-location').value.trim();
   const bal=parseFloat(document.getElementById('ps-balance').value)||0;
@@ -2064,7 +2092,7 @@ document.getElementById('ps-save').addEventListener('click',()=>{
   persons[name]=p;
   savePersons(persons);
   closePersonSheet();
-  toast('<i class="fa-solid fa-check"></i> Person added');
+  toast('<i class="fa-solid fa-check"></i> '+tr('msgPersonAdded'));
   if(personSheetOrigin==='tx') selectNewPersonInTxForm(name);
   else renderPersonsList();
 });
