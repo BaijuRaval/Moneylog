@@ -10,6 +10,9 @@
 <meta name="theme-color" content="#0d0d1a"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <title><i class="fa-solid fa-sack-dollar"></i> MoneyLog</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
 :root{
   --bg:#0B0A17;
@@ -453,8 +456,30 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 <body>
 <div id="app">
 
+<!-- ═══════════ AUTH ═══════════ -->
+<div class="view active" id="v-auth">
+  <div class="ob-wrap">
+    <div class="ob-card">
+      <div class="ob-ico"><i class="fa-solid fa-lock"></i></div>
+      <div class="ob-title" id="auth-title">Welcome to MoneyLog</div>
+      <div class="ob-sub" id="auth-sub">Sign in to continue</div>
+      <div class="flg"><input class="fl" type="email" id="auth-email" placeholder=" " autocomplete="email"><label class="fll"><i class="fa-solid fa-envelope"></i> Email</label></div>
+      <div class="flg"><input class="fl" type="password" id="auth-password" placeholder=" " autocomplete="current-password"><label class="fll"><i class="fa-solid fa-key"></i> Password</label></div>
+      <div class="flg" id="auth-confirm-g" style="display:none"><input class="fl" type="password" id="auth-confirm" placeholder=" " autocomplete="new-password"><label class="fll"><i class="fa-solid fa-key"></i> Confirm Password</label></div>
+      <div id="auth-error" style="display:none;color:var(--red);font-size:.8rem;text-align:center;margin:-6px 0 14px;line-height:1.5"></div>
+      <button class="sv-btn" id="auth-submit"><i class="fa-solid fa-right-to-bracket"></i> <span id="auth-submit-txt">Sign In</span></button>
+      <div style="text-align:center;margin-top:16px;font-size:.82rem;color:var(--t2)">
+        <span id="auth-switch-txt">Don't have an account?</span> <a href="#" id="auth-switch-link" style="color:var(--violet);font-weight:700;text-decoration:none">Sign Up</a>
+      </div>
+      <div style="text-align:center;margin-top:10px">
+        <a href="#" id="auth-forgot" style="color:var(--t3);font-size:.76rem;text-decoration:none">Forgot password?</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ DASHBOARD ═══════════ -->
-<div class="view active" id="v-obsetup" style="padding-bottom:24px">
+<div class="view" id="v-obsetup" style="padding-bottom:24px">
   <div class="ob-wrap">
     <div class="ob-card">
       <div class="ob-ico"><i class="fa-solid fa-wallet"></i></div>
@@ -824,6 +849,11 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
       </div>
     </div>
     <div class="sgrp">
+      <div class="sgrp-lbl">Account</div>
+      <div class="sitem"><div class="si-ico bl"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="si-t"><div class="si-lbl" id="acct-email">—</div><div class="si-sub">Signed in</div></div></div>
+      <div class="sitem" id="s-signout"><div class="si-ico rd"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div class="si-t"><div class="si-lbl" style="color:var(--red)">Sign Out</div></div></div>
+    </div>
+    <div class="sgrp">
       <div class="sgrp-lbl" data-i18n="data">Data</div>
       <div class="sitem" id="s-backup"><div class="si-ico bl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="backupJson">Backup JSON</div><div class="si-sub" data-i18n="downloadAllData">Download all data</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
       <div class="sitem" id="s-restore"><div class="si-ico gn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="restoreJson">Restore JSON</div><div class="si-sub" data-i18n="loadFromBackup">Load from backup</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
@@ -942,6 +972,21 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 /* ============================================================
    CASHBOOK APP — single file, vanilla JS, localStorage
 ============================================================ */
+
+/* ── FIREBASE (auth + cloud backup) ──────────────────────── */
+const firebaseConfig = {
+  apiKey: "AIzaSyC_rdh3A3zpKIUbOdRzHmiggYgSFg1aE_k",
+  authDomain: "moneylog-b759f.firebaseapp.com",
+  projectId: "moneylog-b759f",
+  storageBucket: "moneylog-b759f.firebasestorage.app",
+  messagingSenderId: "831394703011",
+  appId: "1:831394703011:web:941dceeac90982f44a8116"
+};
+firebase.initializeApp(firebaseConfig);
+const fbAuth = firebase.auth();
+const fbDb = firebase.firestore();
+let currentUser = null;
+
 const KTX='cb_tx', KCFG='cb_cfg', KLANG='cb_lang';
 const I18N={
   en:{
@@ -1067,6 +1112,21 @@ function boot(){
   try{ CFG={cash:0,bank:0,configured:false,...JSON.parse(localStorage.getItem(KCFG))}; }catch{}
   bindAll();
   applyI18n();
+  document.querySelector('.bnav').style.display='none';
+  fbAuth.onAuthStateChanged(user=>{
+    if(user){
+      currentUser=user;
+      document.getElementById('auth-email').value='';
+      document.getElementById('auth-password').value='';
+      cloudRestore().finally(goToAppHome);
+    }else{
+      currentUser=null;
+      document.querySelector('.bnav').style.display='none';
+      navTo('auth');
+    }
+  });
+}
+function goToAppHome(){
   if(!CFG.configured){
     document.querySelector('.bnav').style.display='none';
     const od=document.getElementById('ob-date');
@@ -1075,9 +1135,29 @@ function boot(){
   }
   else{ document.querySelector('.bnav').style.display=''; navTo('home'); }
 }
+async function cloudRestore(){
+  if(!currentUser) return;
+  try{
+    const snap=await fbDb.collection('backups').doc(currentUser.uid).get();
+    if(snap.exists){
+      const d=snap.data();
+      if(d.TX) TX=d.TX;
+      if(d.CFG) CFG={cash:0,bank:0,configured:false,...d.CFG};
+      if(d.PERSONS) savePersons(d.PERSONS);
+      localStorage.setItem(KTX,JSON.stringify(TX));
+      localStorage.setItem(KCFG,JSON.stringify(CFG));
+    }
+  }catch(e){ console.error('Cloud restore failed:',e); }
+}
+function cloudSync(){
+  if(!currentUser) return;
+  fbDb.collection('backups').doc(currentUser.uid).set({
+    TX, CFG, PERSONS:getPersons(), updatedAt:Date.now()
+  }).catch(e=>console.error('Cloud sync failed:',e));
+}
 
 /* ── PERSIST ───────────────────────────────────── */
-function save(){ localStorage.setItem(KTX,JSON.stringify(TX)); localStorage.setItem(KCFG,JSON.stringify(CFG)); }
+function save(){ localStorage.setItem(KTX,JSON.stringify(TX)); localStorage.setItem(KCFG,JSON.stringify(CFG)); cloudSync(); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 
 /* ── HELPERS ───────────────────────────────────── */
@@ -1220,6 +1300,7 @@ function bindAll(){
   document.getElementById('restore-file').addEventListener('change',restore);
   document.getElementById('s-csv').addEventListener('click',exportCSV);
   document.getElementById('s-reset').addEventListener('click',()=>openModal('<i class="fa-solid fa-triangle-exclamation"></i>',tr('modalResetTitle'),tr('modalResetMsg'),()=>{ TX=[]; CFG={cash:0,bank:0,configured:false}; savePersons({}); save(); toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgAllDataCleared')); document.querySelector('.bnav').style.display='none'; const od=document.getElementById('ob-date'); od.value=today(); od.max=today(); navTo('obsetup'); }));
+  document.getElementById('s-signout').addEventListener('click',()=>openModal('<i class="fa-solid fa-right-from-bracket"></i>','Sign Out?','You can sign back in anytime to restore your data.',()=>{ fbAuth.signOut(); }));
   /* modal */
   document.getElementById('m-cancel').addEventListener('click',closeModal);
   /* keyboard */
@@ -1879,7 +1960,10 @@ function renderReports(){
 }
 
 /* ── SETTINGS ──────────────────────────────────── */
-function initSettings(){}
+function initSettings(){
+  const el=document.getElementById('acct-email');
+  if(el) el.textContent=currentUser?currentUser.email:'—';
+}
 function saveOpeningBalance(){
   const od=document.getElementById('ob-date').value||today();
   if(od>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgOpeningDateFuture')); return; }
@@ -1965,6 +2049,76 @@ function ripple(e,el){
   r.style.top=(e.clientY-rect.top-4)+'px';
   c.appendChild(r); setTimeout(()=>r.remove(),550);
 }
+
+/* ── AUTH SCREEN ───────────────────────────────── */
+let authMode='signin';
+function setAuthMode(m){
+  authMode=m;
+  const isUp=m==='signup';
+  document.getElementById('auth-title').textContent='Welcome to MoneyLog';
+  document.getElementById('auth-sub').textContent=isUp?'Create an account to continue':'Sign in to continue';
+  document.getElementById('auth-confirm-g').style.display=isUp?'block':'none';
+  document.getElementById('auth-submit-txt').textContent=isUp?'Create Account':'Sign In';
+  document.getElementById('auth-switch-txt').textContent=isUp?'Already have an account?':"Don't have an account?";
+  document.getElementById('auth-switch-link').textContent=isUp?'Sign In':'Sign Up';
+  hideAuthError();
+}
+function showAuthError(msg,success){
+  const el=document.getElementById('auth-error');
+  el.textContent=msg;
+  el.style.color=success?'var(--green)':'var(--red)';
+  el.style.display='block';
+}
+function hideAuthError(){ document.getElementById('auth-error').style.display='none'; }
+function authErrorMessage(e){
+  const map={
+    'auth/invalid-email':'Enter a valid email address',
+    'auth/user-not-found':'No account found with this email',
+    'auth/wrong-password':'Incorrect password',
+    'auth/invalid-credential':'Incorrect email or password',
+    'auth/email-already-in-use':'An account already exists with this email',
+    'auth/weak-password':'Password must be at least 6 characters',
+    'auth/too-many-requests':'Too many attempts. Please try again later',
+    'auth/network-request-failed':'Network error. Check your connection'
+  };
+  return map[e.code]||e.message||'Something went wrong. Please try again';
+}
+document.getElementById('auth-switch-link').addEventListener('click',e=>{
+  e.preventDefault();
+  setAuthMode(authMode==='signin'?'signup':'signin');
+});
+document.getElementById('auth-forgot').addEventListener('click',async e=>{
+  e.preventDefault();
+  const email=document.getElementById('auth-email').value.trim();
+  if(!email){ showAuthError('Enter your email above first'); return; }
+  try{
+    await fbAuth.sendPasswordResetEmail(email);
+    showAuthError('Password reset email sent!',true);
+  }catch(err){ showAuthError(authErrorMessage(err)); }
+});
+document.getElementById('auth-submit').addEventListener('click',async()=>{
+  const email=document.getElementById('auth-email').value.trim();
+  const pw=document.getElementById('auth-password').value;
+  hideAuthError();
+  if(!email||!pw){ showAuthError('Enter email and password'); return; }
+  const btn=document.getElementById('auth-submit');
+  btn.disabled=true; const origHtml=btn.innerHTML;
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Please wait…';
+  try{
+    if(authMode==='signup'){
+      const cpw=document.getElementById('auth-confirm').value;
+      if(pw!==cpw){ showAuthError('Passwords do not match'); btn.disabled=false; btn.innerHTML=origHtml; return; }
+      if(pw.length<6){ showAuthError('Password must be at least 6 characters'); btn.disabled=false; btn.innerHTML=origHtml; return; }
+      await fbAuth.createUserWithEmailAndPassword(email,pw);
+    }else{
+      await fbAuth.signInWithEmailAndPassword(email,pw);
+    }
+    // onAuthStateChanged handles navigation from here
+  }catch(err){
+    showAuthError(authErrorMessage(err));
+    btn.disabled=false; btn.innerHTML=origHtml;
+  }
+});
 
 boot();
 
