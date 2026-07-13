@@ -130,6 +130,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 
 /* ── OPENING BALANCE ONBOARDING ── */
 .ob-wrap{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:28px 20px;position:relative}
+.loader-spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.15);border-top-color:var(--violet);margin:0 auto;animation:loaderSpin .8s linear infinite}
+@keyframes loaderSpin{to{transform:rotate(360deg)}}
 .ob-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 15%,rgba(108,77,255,.22) 0%,transparent 55%),radial-gradient(circle at 80% 85%,rgba(176,92,255,.16) 0%,transparent 50%);pointer-events:none}
 .ob-card{position:relative;width:100%;max-width:380px;background:rgba(24,22,43,.6);border:1px solid rgba(176,92,255,.24);border-radius:var(--r-xl);padding:32px 26px 28px;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:var(--sh-glow),0 20px 60px rgba(0,0,0,.5);animation:obIn .55s var(--ease-sp) both}
 @keyframes obIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
@@ -456,8 +458,18 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 <body>
 <div id="app">
 
+<!-- ═══════════ LOADING ═══════════ -->
+<div class="view active" id="v-loading">
+  <div class="ob-wrap">
+    <div style="text-align:center">
+      <div class="ob-ico" style="margin:0 auto 18px"><i class="fa-solid fa-sack-dollar"></i></div>
+      <div class="loader-spin"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ AUTH ═══════════ -->
-<div class="view active" id="v-auth">
+<div class="view" id="v-auth">
   <div class="ob-wrap">
     <div class="ob-card">
       <div class="ob-ico"><i class="fa-solid fa-lock"></i></div>
