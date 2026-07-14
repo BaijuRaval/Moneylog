@@ -1175,7 +1175,7 @@ function cloudSync(){
 }
 
 /* ── PERSIST ───────────────────────────────────── */
-function save(){ localStorage.setItem(KTX,JSON.stringify(TX)); localStorage.setItem(KCFG,JSON.stringify(CFG)); cloudSync(); }
+function save(){ localStorage.setItem(KTX,JSON.stringify(TX)); localStorage.setItem(KCFG,JSON.stringify(CFG)); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 
 /* ── HELPERS ───────────────────────────────────── */
