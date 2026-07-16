@@ -10,9 +10,6 @@
 <meta name="theme-color" content="#0d0d1a"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <title><i class="fa-solid fa-sack-dollar"></i> MoneyLog</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
 :root{
   --bg:#0B0A17;
@@ -130,8 +127,6 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 
 /* ── OPENING BALANCE ONBOARDING ── */
 .ob-wrap{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:28px 20px;position:relative}
-.loader-spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.15);border-top-color:var(--violet);margin:0 auto;animation:loaderSpin .8s linear infinite}
-@keyframes loaderSpin{to{transform:rotate(360deg)}}
 .ob-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 15%,rgba(108,77,255,.22) 0%,transparent 55%),radial-gradient(circle at 80% 85%,rgba(176,92,255,.16) 0%,transparent 50%);pointer-events:none}
 .ob-card{position:relative;width:100%;max-width:380px;background:rgba(24,22,43,.6);border:1px solid rgba(176,92,255,.24);border-radius:var(--r-xl);padding:32px 26px 28px;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:var(--sh-glow),0 20px 60px rgba(0,0,0,.5);animation:obIn .55s var(--ease-sp) both}
 @keyframes obIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
@@ -458,40 +453,8 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
 <body>
 <div id="app">
 
-<!-- ═══════════ LOADING ═══════════ -->
-<div class="view active" id="v-loading">
-  <div class="ob-wrap">
-    <div style="text-align:center">
-      <div class="ob-ico" style="margin:0 auto 18px"><i class="fa-solid fa-sack-dollar"></i></div>
-      <div class="loader-spin"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════ AUTH ═══════════ -->
-<div class="view" id="v-auth">
-  <div class="ob-wrap">
-    <div class="ob-card">
-      <div class="ob-ico"><i class="fa-solid fa-lock"></i></div>
-      <div class="ob-title" id="auth-title">Welcome to MoneyLog</div>
-      <div class="ob-sub" id="auth-sub">Sign in to continue</div>
-      <div class="flg"><input class="fl" type="email" id="auth-email" placeholder=" " autocomplete="email"><label class="fll"><i class="fa-solid fa-envelope"></i> Email</label></div>
-      <div class="flg"><input class="fl" type="password" id="auth-password" placeholder=" " autocomplete="current-password"><label class="fll"><i class="fa-solid fa-key"></i> Password</label></div>
-      <div class="flg" id="auth-confirm-g" style="display:none"><input class="fl" type="password" id="auth-confirm" placeholder=" " autocomplete="new-password"><label class="fll"><i class="fa-solid fa-key"></i> Confirm Password</label></div>
-      <div id="auth-error" style="display:none;color:var(--red);font-size:.8rem;text-align:center;margin:-6px 0 14px;line-height:1.5"></div>
-      <button class="sv-btn" id="auth-submit"><i class="fa-solid fa-right-to-bracket"></i> <span id="auth-submit-txt">Sign In</span></button>
-      <div style="text-align:center;margin-top:16px;font-size:.82rem;color:var(--t2)">
-        <span id="auth-switch-txt">Don't have an account?</span> <a href="#" id="auth-switch-link" style="color:var(--violet);font-weight:700;text-decoration:none">Sign Up</a>
-      </div>
-      <div style="text-align:center;margin-top:10px">
-        <a href="#" id="auth-forgot" style="color:var(--t3);font-size:.76rem;text-decoration:none">Forgot password?</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ═══════════ DASHBOARD ═══════════ -->
-<div class="view" id="v-obsetup" style="padding-bottom:24px">
+<div class="view active" id="v-obsetup" style="padding-bottom:24px">
   <div class="ob-wrap">
     <div class="ob-card">
       <div class="ob-ico"><i class="fa-solid fa-wallet"></i></div>
@@ -861,16 +824,6 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
       </div>
     </div>
     <div class="sgrp">
-      <div class="sgrp-lbl">Account</div>
-      <div class="sitem"><div class="si-ico bl"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="si-t"><div class="si-lbl" id="acct-email">—</div><div class="si-sub">Signed in</div></div></div>
-      <div class="sitem" id="s-signout"><div class="si-ico rd"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div><div class="si-t"><div class="si-lbl" style="color:var(--red)">Sign Out</div></div></div>
-    </div>
-    <div class="sgrp">
-      <div class="sgrp-lbl">Cloud Backup</div>
-      <div class="sitem" id="s-cloud-backup"><div class="si-ico gn"><svg viewBox="0 0 24 24"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><polyline points="12 12 12 21"/><polyline points="9 18 12 21 15 18"/></svg></div><div class="si-t"><div class="si-lbl">Backup Now</div><div class="si-sub" id="cloud-last-sync">Sync your data to the cloud</div></div></div>
-      <div class="sitem" id="s-cloud-restore"><div class="si-ico am"><svg viewBox="0 0 24 24"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"/><polyline points="9 15 12 12 15 15"/><line x1="12" y1="12" x2="12" y2="21"/></svg></div><div class="si-t"><div class="si-lbl">Restore from Cloud</div><div class="si-sub">Pull your latest cloud backup</div></div></div>
-    </div>
-    <div class="sgrp">
       <div class="sgrp-lbl" data-i18n="data">Data</div>
       <div class="sitem" id="s-backup"><div class="si-ico bl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="backupJson">Backup JSON</div><div class="si-sub" data-i18n="downloadAllData">Download all data</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
       <div class="sitem" id="s-restore"><div class="si-ico gn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div class="si-t"><div class="si-lbl" data-i18n="restoreJson">Restore JSON</div><div class="si-sub" data-i18n="loadFromBackup">Load from backup</div></div><div class="si-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
@@ -990,7 +943,10 @@ input,select{font-family:inherit;border:none;outline:none;color:inherit;backgrou
    CASHBOOK APP — single file, vanilla JS, localStorage
 ============================================================ */
 
-/* ── FIREBASE (auth + cloud backup) ──────────────────────── */
+/* ── FIREBASE (disabled — cloud backup/login removed) ─────
+   Config preserved for future re-enablement. To restore, re-add the
+   firebase-app-compat / firebase-auth-compat / firebase-firestore-compat
+   <script> tags in <head>, then uncomment below.
 const firebaseConfig = {
   apiKey: "AIzaSyC_rdh3A3zpKIUbOdRzHmiggYgSFg1aE_k",
   authDomain: "moneylog-b759f.firebaseapp.com",
@@ -1003,6 +959,7 @@ firebase.initializeApp(firebaseConfig);
 const fbAuth = firebase.auth();
 const fbDb = firebase.firestore();
 let currentUser = null;
+──────────────────────────────────────────────────────── */
 
 const KTX='cb_tx', KCFG='cb_cfg', KLANG='cb_lang';
 const I18N={
@@ -1129,21 +1086,6 @@ function boot(){
   try{ CFG={cash:0,bank:0,configured:false,...JSON.parse(localStorage.getItem(KCFG))}; }catch{}
   bindAll();
   applyI18n();
-  document.querySelector('.bnav').style.display='none';
-  fbAuth.onAuthStateChanged(user=>{
-    if(user){
-      currentUser=user;
-      document.getElementById('auth-email').value='';
-      document.getElementById('auth-password').value='';
-      cloudRestore().finally(goToAppHome);
-    }else{
-      currentUser=null;
-      document.querySelector('.bnav').style.display='none';
-      navTo('auth');
-    }
-  });
-}
-function goToAppHome(){
   if(!CFG.configured){
     document.querySelector('.bnav').style.display='none';
     const od=document.getElementById('ob-date');
@@ -1151,27 +1093,6 @@ function goToAppHome(){
     navTo('obsetup');
   }
   else{ document.querySelector('.bnav').style.display=''; navTo('home'); }
-}
-async function cloudRestore(){
-  if(!currentUser) return false;
-  try{
-    const snap=await fbDb.collection('backups').doc(currentUser.uid).get();
-    if(snap.exists){
-      const d=snap.data();
-      if(d.TX) TX=d.TX;
-      if(d.CFG) CFG={cash:0,bank:0,configured:false,...d.CFG};
-      if(d.PERSONS) savePersons(d.PERSONS);
-      localStorage.setItem(KTX,JSON.stringify(TX));
-      localStorage.setItem(KCFG,JSON.stringify(CFG));
-    }
-    return true;
-  }catch(e){ console.error('Cloud restore failed:',e); return false; }
-}
-function cloudSync(){
-  if(!currentUser) return;
-  fbDb.collection('backups').doc(currentUser.uid).set({
-    TX, CFG, PERSONS:getPersons(), updatedAt:Date.now()
-  }).catch(e=>console.error('Cloud sync failed:',e));
 }
 
 /* ── PERSIST ───────────────────────────────────── */
@@ -1318,33 +1239,6 @@ function bindAll(){
   document.getElementById('restore-file').addEventListener('change',restore);
   document.getElementById('s-csv').addEventListener('click',exportCSV);
   document.getElementById('s-reset').addEventListener('click',()=>openModal('<i class="fa-solid fa-triangle-exclamation"></i>',tr('modalResetTitle'),tr('modalResetMsg'),()=>{ TX=[]; CFG={cash:0,bank:0,configured:false}; savePersons({}); save(); toast('<i class="fa-solid fa-trash-can"></i> '+tr('msgAllDataCleared')); document.querySelector('.bnav').style.display='none'; const od=document.getElementById('ob-date'); od.value=today(); od.max=today(); navTo('obsetup'); }));
-  document.getElementById('s-signout').addEventListener('click',()=>openModal('<i class="fa-solid fa-right-from-bracket"></i>','Sign Out?','You can sign back in anytime to restore your data.',()=>{ fbAuth.signOut(); }));
-  document.getElementById('s-cloud-backup').addEventListener('click',async()=>{
-    if(!currentUser) return;
-    const item=document.getElementById('s-cloud-backup');
-    item.style.opacity='.6'; item.style.pointerEvents='none';
-    try{
-      await fbDb.collection('backups').doc(currentUser.uid).set({TX,CFG,PERSONS:getPersons(),updatedAt:Date.now()});
-      toast('<i class="fa-solid fa-cloud-arrow-up"></i> Backed up to cloud');
-      refreshCloudSyncLabel();
-    }catch(e){
-      toast('<i class="fa-solid fa-triangle-exclamation"></i> Backup failed. Check your connection');
-    }
-    item.style.opacity=''; item.style.pointerEvents='';
-  });
-  document.getElementById('s-cloud-restore').addEventListener('click',()=>{
-    if(!currentUser) return;
-    openModal('<i class="fa-solid fa-cloud-arrow-down"></i>','Restore from Cloud?','This will overwrite your local data with your latest cloud backup.',async()=>{
-      const ok=await cloudRestore();
-      if(ok){
-        toast('<i class="fa-solid fa-check"></i> Restored from cloud');
-        refreshCloudSyncLabel();
-        if(!CFG.configured){ navTo('obsetup'); }else{ navTo('home'); }
-      }else{
-        toast('<i class="fa-solid fa-triangle-exclamation"></i> Restore failed. Check your connection');
-      }
-    });
-  });
   /* modal */
   document.getElementById('m-cancel').addEventListener('click',closeModal);
   /* keyboard */
@@ -2004,25 +1898,7 @@ function renderReports(){
 }
 
 /* ── SETTINGS ──────────────────────────────────── */
-function initSettings(){
-  const el=document.getElementById('acct-email');
-  if(el) el.textContent=currentUser?currentUser.email:'—';
-  refreshCloudSyncLabel();
-}
-async function refreshCloudSyncLabel(){
-  const lbl=document.getElementById('cloud-last-sync');
-  if(!lbl||!currentUser) return;
-  lbl.textContent='Checking…';
-  try{
-    const snap=await fbDb.collection('backups').doc(currentUser.uid).get();
-    if(snap.exists&&snap.data().updatedAt){
-      const d=new Date(snap.data().updatedAt);
-      lbl.textContent='Last synced: '+d.toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    }else{
-      lbl.textContent='Not synced yet';
-    }
-  }catch(e){ lbl.textContent='Sync your data to the cloud'; }
-}
+function initSettings(){}
 function saveOpeningBalance(){
   const od=document.getElementById('ob-date').value||today();
   if(od>today()){ toast('<i class="fa-solid fa-triangle-exclamation"></i> '+tr('msgOpeningDateFuture')); return; }
@@ -2108,76 +1984,6 @@ function ripple(e,el){
   r.style.top=(e.clientY-rect.top-4)+'px';
   c.appendChild(r); setTimeout(()=>r.remove(),550);
 }
-
-/* ── AUTH SCREEN ───────────────────────────────── */
-let authMode='signin';
-function setAuthMode(m){
-  authMode=m;
-  const isUp=m==='signup';
-  document.getElementById('auth-title').textContent='Welcome to MoneyLog';
-  document.getElementById('auth-sub').textContent=isUp?'Create an account to continue':'Sign in to continue';
-  document.getElementById('auth-confirm-g').style.display=isUp?'block':'none';
-  document.getElementById('auth-submit-txt').textContent=isUp?'Create Account':'Sign In';
-  document.getElementById('auth-switch-txt').textContent=isUp?'Already have an account?':"Don't have an account?";
-  document.getElementById('auth-switch-link').textContent=isUp?'Sign In':'Sign Up';
-  hideAuthError();
-}
-function showAuthError(msg,success){
-  const el=document.getElementById('auth-error');
-  el.textContent=msg;
-  el.style.color=success?'var(--green)':'var(--red)';
-  el.style.display='block';
-}
-function hideAuthError(){ document.getElementById('auth-error').style.display='none'; }
-function authErrorMessage(e){
-  const map={
-    'auth/invalid-email':'Enter a valid email address',
-    'auth/user-not-found':'No account found with this email',
-    'auth/wrong-password':'Incorrect password',
-    'auth/invalid-credential':'Incorrect email or password',
-    'auth/email-already-in-use':'An account already exists with this email',
-    'auth/weak-password':'Password must be at least 6 characters',
-    'auth/too-many-requests':'Too many attempts. Please try again later',
-    'auth/network-request-failed':'Network error. Check your connection'
-  };
-  return map[e.code]||e.message||'Something went wrong. Please try again';
-}
-document.getElementById('auth-switch-link').addEventListener('click',e=>{
-  e.preventDefault();
-  setAuthMode(authMode==='signin'?'signup':'signin');
-});
-document.getElementById('auth-forgot').addEventListener('click',async e=>{
-  e.preventDefault();
-  const email=document.getElementById('auth-email').value.trim();
-  if(!email){ showAuthError('Enter your email above first'); return; }
-  try{
-    await fbAuth.sendPasswordResetEmail(email);
-    showAuthError('Password reset email sent!',true);
-  }catch(err){ showAuthError(authErrorMessage(err)); }
-});
-document.getElementById('auth-submit').addEventListener('click',async()=>{
-  const email=document.getElementById('auth-email').value.trim();
-  const pw=document.getElementById('auth-password').value;
-  hideAuthError();
-  if(!email||!pw){ showAuthError('Enter email and password'); return; }
-  const btn=document.getElementById('auth-submit');
-  btn.disabled=true; const origHtml=btn.innerHTML;
-  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Please wait…';
-  try{
-    if(authMode==='signup'){
-      const cpw=document.getElementById('auth-confirm').value;
-      if(pw!==cpw){ showAuthError('Passwords do not match'); btn.disabled=false; btn.innerHTML=origHtml; return; }
-      if(pw.length<6){ showAuthError('Password must be at least 6 characters'); btn.disabled=false; btn.innerHTML=origHtml; return; }
-      await fbAuth.createUserWithEmailAndPassword(email,pw);
-    }else{
-      await fbAuth.signInWithEmailAndPassword(email,pw);
-    }
-    // onAuthStateChanged handles navigation from here
-  }catch(err){
-    showAuthError(authErrorMessage(err));
-    btn.disabled=false; btn.innerHTML=origHtml;
-  }
-});
 
 boot();
 
