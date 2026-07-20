@@ -1245,6 +1245,7 @@ function showLicenseScreen(message){
   else{ errEl.textContent=''; errEl.style.display='none'; }
 }
 async function bootLicenseCheck(){
+  document.querySelector('.bnav').style.display='none';
   const activated = localStorage.getItem(LICENSE_KEYS.activated)==='true';
 
   if(activated){
